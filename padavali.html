@@ -10,7 +10,7 @@
     <style>
         @font-face {
             font-family: 'LailaSemiBold';
-            src: url('../assets/fonts/Laila-SemiBold.ttf') format('truetype');
+            src: url('assets/fonts/Laila-SemiBold.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
         }
@@ -271,7 +271,7 @@
     </style>
 </head>
 <body>
-    <a href="../index.html" class="back-dashboard-btn">
+    <a href="index.html" class="back-dashboard-btn">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
       </svg>
@@ -520,27 +520,7 @@
 श्री विट्ठल बिपुल बिनोद बिहारी, होत मनावत लीन ॥
 
     </div>
-    <script>
-        const toggleBtn = document.getElementById('tocToggleBtn');
-        const dropdown = document.getElementById('tocDropdown');
-        const tocLinks = document.querySelectorAll('.toc-dropdown a');
-
-        toggleBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            dropdown.classList.toggle('open');
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!dropdown.contains(e.target) && e.target !== toggleBtn) {
-                dropdown.classList.remove('open');
-            }
-        });
-
-        tocLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                dropdown.classList.remove('open');
-            });
-        });
-    </script>
+    
+<script src="assets/js/content-loader.js"></script>
 </body>
 </html>
