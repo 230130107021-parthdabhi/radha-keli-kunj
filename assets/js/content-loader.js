@@ -486,8 +486,11 @@
     async function loadBookData() {
         currentLang = localStorage.getItem('preferredLanguage') || 'hi';
 
+        const isGroupDir = filename !== 'hamare-rasik-sant-evam-bhaktajan' && filename !== 'index';
+        const basePrefix = isGroupDir ? '../' : '';
+
         try {
-            const response = await fetch(`assets/data/${currentLang}/${filename}.json`);
+            const response = await fetch(`${basePrefix}assets/data/${currentLang}/${filename}.json`);
             if (!response.ok) {
                 throw new Error(`Failed to load content data: ${response.statusText}`);
             }

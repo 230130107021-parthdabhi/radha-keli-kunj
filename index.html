@@ -448,7 +448,7 @@
 
       const groups = [
         {
-          id: 'group1',
+          id: 'shri-hit-harivansh-vani',
           hi: 'श्री हित हरिवंश वाणी',
           gu: 'શ્રી હિત હરિવંશ વાણી',
           bookIds: [
@@ -462,7 +462,7 @@
           ]
         },
         {
-          id: 'group2',
+          id: 'rasikon-ki-vani',
           hi: 'रसिकों की वाणी',
           gu: 'રસિકોની વાણી',
           bookIds: [
@@ -479,7 +479,7 @@
           ]
         },
         {
-          id: 'group3',
+          id: 'ashtyam-seva-paddhati',
           hi: 'अष्टयाम सेवा पद्धति',
           gu: 'અષ્ટયામ સેવા પદ્ધતિ',
           bookIds: [
@@ -491,7 +491,7 @@
           ]
         },
         {
-          id: 'group4',
+          id: 'nitya-path-rasopasana',
           hi: 'नित्य पाठ रसोपासना',
           gu: 'નિત્ય પાઠ રસોપાસના',
           bookIds: [
@@ -512,7 +512,7 @@
           ]
         },
         {
-          id: 'group5',
+          id: 'stotravali',
           hi: 'स्तोत्रावली',
           gu: 'સ્તોત્રાવલી',
           bookIds: [
@@ -525,7 +525,7 @@
           ]
         },
         {
-          id: 'group6',
+          id: 'utsav-ke-pad',
           hi: 'उत्सव के पद',
           gu: 'ઉત્સવના પદ',
           bookIds: [
@@ -609,7 +609,7 @@
             const titleText = lang === 'hi' ? book.hi : book.gu;
             const fontClass = lang === 'hi' ? 'devanagari' : 'gujarati';
             booksHtml += `
-              <a href="${book.id}.html" class="card">
+              <a href="${group.id}/${book.id}.html" class="card">
                 <span class="card-text ${fontClass}">${titleText}</span>
                 <div class="card-arrow">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
