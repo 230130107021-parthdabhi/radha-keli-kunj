@@ -273,6 +273,25 @@
                 visibility: visible !important;
             }
         }
+        .project-resource-loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 250px;
+            width: 100%;
+        }
+        .project-loader-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(136, 19, 55, 0.1);
+            border-left-color: #881337;
+            border-radius: 50%;
+            animation: project-spin 0.8s linear infinite;
+        }
+        @keyframes project-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     `;
     document.head.appendChild(styleEl);
 
@@ -302,7 +321,7 @@
     window.toggleGlobalVideo = function () {
         isVideoHidden = !isVideoHidden;
         localStorage.setItem('globalVideoHidden', isVideoHidden);
-        
+
         // Let onContentUpdate handle updating the DOM and button layout
         onContentUpdate();
     };
@@ -992,6 +1011,16 @@
     // 5. Fetch and load the JSON data
     async function loadBookData() {
         currentLang = localStorage.getItem('preferredLanguage') || 'hi';
+
+        // Render project theme-based resource loader (circle only)
+        const contentDiv = document.querySelector('.content');
+        if (contentDiv) {
+            contentDiv.innerHTML = `
+                <div class="project-resource-loader">
+                    <div class="project-loader-spinner"></div>
+                </div>
+            `;
+        }
 
         const pathname = window.location.pathname;
         const pathParts = pathname.split('/');
