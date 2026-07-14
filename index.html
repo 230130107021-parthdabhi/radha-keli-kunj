@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radha Keli Kunj</title>
+  <link rel="icon" href="assets/images/unnamed.webp" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Serif+Devanagari:wght@400;600;700&family=Noto+Serif+Gujarati:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #faf9f6;
+      background: linear-gradient(135deg, #fdfdfb 0%, #f4f3ec 100%);
+      font-family: 'Outfit', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #1e1e1a;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app-container {
+      display: flex;
+      flex-direction: row;
+      max-width: 1400px;
+      width: 100%;
+      min-height: 100vh;
+      box-sizing: border-box;
+      gap: 40px;
+      padding: 40px 20px;
+    }
+
+    /* Sidebar Styling */
+    .sidebar {
+      flex: 0 0 360px;
+      position: sticky;
+      top: 40px;
+      height: fit-content;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    .sidebar-logo {
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      margin-bottom: 25px;
+    }
+
+    .sidebar h1 {
+      font-size: 2.2em;
+      margin: 0 0 12px 0;
+      color: #881337; /* Deep Crimson */
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .sidebar-desc {
+      font-size: 1.05em;
+      line-height: 1.6;
+      color: #57534e;
+      margin-bottom: 25px;
+      font-family: 'Noto Serif Devanagari', serif;
+    }
+
+    .sidebar-subtext {
+      font-size: 0.9em;
+      color: #b45309; /* Warm Amber */
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 15px;
+      border-top: 1px solid #e7e5e4;
+      padding-top: 20px;
+      width: 100%;
+    }
+
+    /* Main Content Styling */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .navigation-sections {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 30px;
+    }
+
+    .nav-section {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .nav-section h2 {
+      font-size: 1.5em;
+      color: #1c1917;
+      margin: 0;
+      border-left: 5px solid #881337;
+      padding-left: 12px;
+      font-weight: 600;
+    }
+
+    .nav-section h2.hindi-title {
+      font-family: 'Noto Serif Devanagari', serif;
+    }
+
+    .nav-section h2.gujarati-title {
+      font-family: 'Noto Serif Gujarati', serif;
+    }
+
+    .cards-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #e7e5e4;
+      border-radius: 16px;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 0;
+      background-color: #881337;
+      transition: width 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px -5px rgba(136, 19, 55, 0.08), 0 8px 10px -6px rgba(136, 19, 55, 0.08);
+      border-color: #fca5a5;
+    }
+
+    .card:hover::before {
+      width: 4px;
+    }
+
+    .card-text {
+      font-size: 1.2em;
+      font-weight: 600;
+      color: #292524;
+      transition: color 0.2s ease;
+    }
+
+    .card-text.devanagari {
+      font-family: 'Noto Serif Devanagari', serif;
+    }
+
+    .card-text.gujarati {
+      font-family: 'Noto Serif Gujarati', serif;
+    }
+
+    .card:hover .card-text {
+      color: #881337;
+    }
+
+    .card-arrow {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f5f5f4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #78716c;
+      transition: all 0.25s ease;
+    }
+
+    .card:hover .card-arrow {
+      background: #881337;
+      color: #ffffff;
+      transform: translateX(4px);
+    }
+
+    /* Responsive styling */
+    @media (max-width: 1024px) {
+      .app-container {
+        flex-direction: column;
+        padding: 30px 15px;
+        gap: 30px;
+      }
+      .sidebar {
+        flex: 1;
+        position: relative;
+        top: 0;
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navigation-sections {
+        grid-template-columns: 1fr;
+        gap: 35px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Left side: Sticky Sidebar -->
+    <div class="sidebar">
+      <img src="assets/images/p_0.jpg" alt="Radha Keli Kunj" class="sidebar-logo">
+      <h1>Radha Keli Kunj</h1>
+      <div class="sidebar-desc">
+        राधावल्लभ सम्प्रदाय के रसिक संत एवं आचार्य प्रणीत ग्रन्थों का दिव्य संग्रह।
+      </div>
+    </div>
+
+    <!-- Right side: Main Content Grid -->
+    <div class="main-content">
+      <div class="navigation-sections">
+        <!-- Hindi Column -->
+        <div class="nav-section">
+          <h2 class="hindi-title">हिन्दी (Hindi)</h2>
+          <div class="cards-grid">
+            <a href="hindi/shri-hit-chaurasi-ji.html" target="_blank" class="card">
+              <span class="card-text devanagari">श्री हित चौरासी जी</span>
+              <div class="card-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </div>
+            </a>
+            <a href="hindi/shri-hit-sphut-vani.html" target="_blank" class="card">
+              <span class="card-text devanagari">श्री हित स्फुट वाणी</span>
+              <div class="card-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </div>
+            </a>
+            <a href="hindi/shri-radha-sudhanidhi-stotram.html" target="_blank" class="card">
+              <span class="card-text devanagari">श्रीराधासुधानिधि स्तोत्रम्</span>
+              <div class="card-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </div>
+            </a>
+            <a href="hindi/shri-hit-sevak-vani.html" target="_blank" class="card">
+              <span class="card-text devanagari">श्रीहित सेवक वाणी</span>
+              <div class="card-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </div>
+            </a>
+            <a href="hindi/shri-hit-mangal-gaan.html" target="_blank" class="card">
+              <span class="card-text devanagari">श्रीहित मंगल गान</span>
+              <div class="card-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </div>
+            </a>
+            <a href="hindi/mangalacharan.html" target="_blank" class="card">
+              <span class="card-text devanagari">मंगलाचरण</span>
+              <div class="card-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </div>
+            </a>
+            <a href="hindi/shri-vrindavan-dham-namavali.html" target="_blank" class="card">
+              <span class="card-text devanagari">श्रीवृन्दावनधाम नामावली</span>
+              <div class="card-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </div>
+            </a>
+            <a href="hindi/shri-yamunashtakam.html" target="_blank" class="card">
+              <span class="card-text devanagari">श्रीयमुनाष्टकम्</span>
+              <div class="card-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </div>
+            </a>
+            <a href="hindi/hamare-rasik-sant-evam-bhaktajan.html" target="_blank" class="card">
+              <span class="card-text devanagari">हमारे रसिक संत एवं भक्तजन</span>
+              <div class="card-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </div>
+            </a>
+            <a href="hindi/padavali.html" target="_blank" class="card">
+              <span class="card-text devanagari">पदावली</span>
+              <div class="card-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Gujarati Column -->
+        <div class="nav-section">
+          <h2 class="gujarati-title">ગુજરાતી (Gujarati)</h2>
+          <div class="cards-grid">
+            <a href="gujarati/shri-hit-chaurasi-ji.html" target="_blank" class="card">
+              <span class="card-text gujarati">શ્રી હિત ચૌરાસી જી</span>
+              <div class="card-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </div>
+            </a>
+            <a href="gujarati/shri-hit-sphut-vani.html" target="_blank" class="card">
+              <span class="card-text gujarati">શ્રી હિત સ્ફુટ વાણી</span>
+              <div class="card-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </div>
+            </a>
+            <a href="gujarati/shri-radha-sudhanidhi-stotram.html" target="_blank" class="card">
+              <span class="card-text gujarati">શ્રીરાધાસુધાનિધિ સ્તોત્રમ્</span>
+              <div class="card-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </div>
+            </a>
+            <a href="gujarati/shri-hit-sevak-vani.html" target="_blank" class="card">
+              <span class="card-text gujarati">શ્રીહિત સેવક વાણી</span>
+              <div class="card-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </div>
+            </a>
+            <a href="gujarati/shri-hit-mangal-gaan.html" target="_blank" class="card">
+              <span class="card-text gujarati">શ્રીહિત મંગલ ગાન</span>
+              <div class="card-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </div>
+            </a>
+            <a href="gujarati/shri-yamunashtakam.html" target="_blank" class="card">
+              <span class="card-text gujarati">શ્રીયમુનાષ્ટકમ્</span>
+              <div class="card-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

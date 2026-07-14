@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>श्रीवृन्दावनधाम नामावली</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Laila:wght@400;500;600;700&family=Noto+Serif+Gujarati:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'LailaSemiBold';
+            src: url('../assets/fonts/Laila-SemiBold.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            background-color: #f7f6f0;
+            background: linear-gradient(135deg, #fdfdfb 0%, #f3f2ec 100%);
+            font-family: 'Laila', 'LailaSemiBold', serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px 80px 20px;
+            box-sizing: border-box;
+            color: #1c1917;
+        }
+
+        /* Fixed back navigation button */
+        .back-dashboard-btn {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            background-color: #ffffff;
+            border: 1px solid #e7e5e4;
+            border-radius: 30px;
+            padding: 10px 22px;
+            color: #881337;
+            text-decoration: none;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.25s ease;
+            z-index: 1000;
+        }
+
+        .back-dashboard-btn:hover {
+            background-color: #881337;
+            color: #ffffff;
+            border-color: #881337;
+            box-shadow: 0 8px 20px rgba(136, 19, 55, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Chapters Toggle Button */
+        .toc-toggle-btn { display: none !important; }
+        .toc-toggle-btn {
+            position: fixed;
+            top: 80px;
+            left: 25px;
+            background-color: #ffffff;
+            border: 1px solid #e7e5e4;
+            border-radius: 30px;
+            padding: 10px 22px;
+            color: #b45309; /* Warm Amber */
+            text-decoration: none;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            z-index: 1000;
+        }
+
+        .toc-toggle-btn:hover {
+            background-color: #b45309;
+            color: #ffffff;
+            border-color: #b45309;
+            box-shadow: 0 8px 20px rgba(180, 83, 9, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .toc-dropdown {
+            position: fixed;
+            top: 135px;
+            left: 25px;
+            width: max-content;
+            max-width: 300px;
+            max-height: 380px;
+            overflow-y: auto;
+            background-color: #ffffff;
+            border: 1px solid #e7e5e4;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            padding: 10px;
+            box-sizing: border-box;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .toc-dropdown.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .toc-dropdown::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .toc-dropdown::-webkit-scrollbar-thumb {
+            background-color: #e7e5e4;
+            border-radius: 3px;
+        }
+
+        .toc-dropdown a {
+            font-family: 'Outfit', 'Laila', sans-serif;
+            font-size: 1.05em;
+            color: #44403c;
+            text-decoration: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+
+        .toc-dropdown a:hover {
+            background-color: #faf9f6;
+            color: #881337;
+            transform: translateX(4px);
+        }
+
+        /* Reading Card Container */
+        .content {
+            background-color: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
+            border: 1px solid #e7e5e4;
+            max-width: 900px;
+            width: 100%;
+            padding: 60px 50px;
+            box-sizing: border-box;
+            text-align: center;
+            white-space: pre-wrap;
+            font-size: 1.8em;
+            line-height: 1.85;
+            margin: 40px auto 0 auto;
+            position: relative;
+            font-weight: 500;
+        }
+
+        /* Book Title */
+        h2 {
+            font-family: 'Outfit', 'Laila', sans-serif;
+            font-size: 1.6em;
+            color: #881337;
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            border-bottom: 2px solid #881337;
+            padding-bottom: 15px;
+            display: inline-block;
+        }
+
+        /* Chapter Section & Anchor Scroll Adjustments */
+        section {
+            scroll-margin-top: 90px;
+            margin-top: 70px;
+            margin-bottom: 40px;
+            display: block;
+        }
+
+        section:empty {
+            margin: 0;
+            padding: 0;
+            height: 0;
+        }
+
+        /* Chapter Title Card Styling */
+        h3 {
+            font-family: 'Outfit', 'Laila', sans-serif;
+            font-size: 1.1em;
+            color: #b45309; /* Warm Amber */
+            background-color: #fdfaf2;
+            border: 1px solid #f6e3c5;
+            border-radius: 14px;
+            padding: 10px 24px;
+            display: inline-block;
+            margin: 0;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(180, 83, 9, 0.03);
+        }
+
+        /* Vyakhya block styling */
+        .vyakhya {
+            font-size: 0.85em;
+            color: #1c1917;
+            background-color: #fafaf9;
+            padding: 24px 30px;
+            border-left: 4px solid #881337;
+            margin: 25px auto;
+            border-radius: 4px 12px 12px 4px;
+            text-align: justify;
+            max-width: 800px;
+            line-height: 1.7;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.01);
+            font-family: 'Laila', 'LailaSemiBold', serif;
+            font-weight: 500;
+        }
+
+        /* Responsive adaptations */
+        @media (max-width: 1280px) {
+            body {
+                padding-top: 90px;
+            }
+            .back-dashboard-btn {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+            }
+            .toc-toggle-btn {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                left: auto;
+            }
+            .toc-dropdown {
+                position: absolute;
+                top: 75px;
+                right: 20px;
+                left: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 40px 20px;
+                font-size: 1.25em;
+                border-radius: 16px;
+            }
+            h2 {
+                font-size: 1.8em;
+            }
+            h3 {
+                font-size: 1.2em;
+            }
+            .vyakhya {
+                padding: 16px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-dashboard-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+      </svg>
+      मुख्य पृष्ठ / Home
+    </a>
+    <div class="content"><h2>श्रीवृन्दावनधाम नामावली</h2>
+
+हे प्रियतम "श्रीवृन्दावन" ।
+प्रेमधाम "श्रीवृन्दावन" ।
+रसघन "श्रीवृन्दावन" । 
+परमधन "श्रीवृन्दावन" ।
+प्यारौ " श्रीवृन्दावन" । 
+दुलारौ " श्रीवृन्दावन" । 
+हमारौ "श्रीवृन्दावन" । 
+लाड़लौं "श्रीवृन्दावन" । 
+कृपासिंधु "श्रीवृन्दावन" । 
+लोभनीय "श्रीवृन्दावन” । 
+महाशोभामय "श्रीवृन्दावन" । 
+महामणिमय "श्रीवृन्दावन" । 
+अप्राकृत "श्रीवृन्दावन" । 
+चिन्मय "श्रीवृन्दावन" । 
+माधुर्यपूर्ण "श्रीवृन्दावन" । 
+विशुद्धानन्दरस “श्रीवृन्दावन' । 
+परागपुंज " श्रीवृन्दावन" । 
+सर्वानन्दरस "श्रीवृन्दावन" । 
+सुदुर्लभतर "श्रीवृन्दावन" । 
+रसपुंज "श्रीवृन्दावन" । 
+महासौन्दर्यशाली "श्रीवृन्दावन" । 
+दयासिंधु "श्रीवृन्दावन" । 
+सर्वस्व “श्रीवृन्दावन' । 
+सौभाग्यभूमि " श्रीवृन्दावन" । 
+सारात्सार "श्रीवृन्दावन" । 
+सर्वाश्चर्यमय "श्रीवृन्दावन" । 
+परमगुरू "श्रीवृन्दावन" । 
+उत्तमोत्तम "श्रीवृन्दावन" । 
+आनन्दघन " श्रीवृन्दावन" । 
+अतिरमणीय "श्रीवृन्दावन" । 
+जीवन-धन ''श्रीवृन्दावन" । 
+सुधा समुद्र "श्रीवृन्दावन" । 
+करुणा सिंधु " श्रीवृन्दावन" । 
+रति रंजित " श्रीवृन्दावन" । 
+सर्वोत्कृष्ट " श्रीवृन्दावन" । 
+महाप्रेम-समुद्र "श्रीवृन्दावन” । 
+आनन्द कोलाहल " श्रीवृन्दावन" ।
+कुंज मंडल " श्रीवृन्दावन" ।
+महारस रूप "श्रीवृन्दावन" ।
+श्रीराधा उपवन " श्रीवृन्दावन" ।
+श्रीराधा कुंजवाटी " श्रीवृन्दावन' ।
+राधामाधव केलिकुंज " श्रीवृन्दावन" ।
+आनन्दघन महारसरूप " श्रीवृन्दावन" ।
+महानन्द बीजस्वरूप " श्रीवृन्दावन" ।
+अविरल मधुवर्षी "श्रीवृन्दावन" ।
+अनूर्ध्वसमान धाम " श्रीवृन्दावन" ।
+कल्पवृक्षों से मण्डित "श्रीवृन्दावन" ।
+श्रीराधा रसोन्मत्त "श्रीवृन्दावन" ।
+अतुलनीय कांतियुक्त "श्रीवृन्दावन" ।
+अति मधुर " श्रीवृन्दावन" ।
+परम ज्ञानमय " श्रीवृन्दावन" ।
+परम सत्कीर्ति "श्रीवृन्दावन" ।
+महाज्योति सिंधु " श्रीवृन्दावन" ।
+गुणरत्न समूह " श्रीवृन्दावन " ।
+सर्वपावन पावन "श्रीवृन्दावन" ।
+मधुर से सुमधुर " श्रीवृन्दावन " ।
+श्रीराधा पदांकित "श्रीवृन्दावन" ।
+सर्वचमत्कार-चमत्कारी " श्रीवृन्दावन" ।
+कामविलास स्थली "श्रीवृन्दावन" ।
+श्रीराधाकृष्ण भावैक "श्रीवृन्दावन" ।
+अनन्त माधुर्य भूमि " श्रीवृन्दावन" ।
+श्रीराधिकारमण धाम " श्रीवृन्दावन" ।
+लता गुल्मादि से पूर्ण " श्रीवृन्दावन" ।
+अति विचित्र कांतियुक्त "श्रीवृन्दावन" ।
+गौरव लावण्ययुक्त "श्रीवृन्दावन" ।
+महानन्द साम्राज्य के मूल " श्रीवृन्दावन" ।
+श्रृंगार रस की पराकाष्ठा "श्रीवृन्दावन" ।
+हे प्रियतम परमानन्दमय "श्रीवृन्दावन" ।
+श्रृंगार रस की राजधानी "श्रीवृन्दावन" ।
+माधुर्योत्कर्ष की चरम सीमा "श्रीवृन्दावन" ।
+प्रेम जल सिञ्चित "श्रीवृन्दावन" ।
+श्रीराधामाधव रतिपूर्ण "श्रीवृन्दावन" ।
+प्रेम रस वर्षाकारी "श्रीवृन्दावन" ।
+श्रीराधा पदकमल रसपूर्ण " श्रीवृन्दावन" ।
+सौन्दर्य समुद्र की पराकाष्ठा " श्रीवृन्दावन" ।
+मनोहर निकुंजों से परिवेष्टित "श्रीवृन्दावन" ।
+वैभवरस से वैकुण्ठपति को भी मोहित करता "श्रीवृन्दावन" ।
+श्रीरसिक युगलकिशोर का सर्वस्व "श्रीवृन्दावन" ।
+अत्यन्त उन्मद महाप्रेम रससार "श्रीवृन्दावन' ।
+श्रीराधिका विपिन " श्रीवृन्दावन” ।
+केलि सौंदर्ययुक्त " श्रीवृन्दावन" । 
+महाविभूतिशाली " श्रीवृन्दावन" । 
+श्रीराधा केलिवन " श्रीवृन्दावन” । 
+नित्य क्रीड़ा वन " श्रीवृन्दावन" । 
+आनन्द उन्मादमय " श्रीवृन्दावन” । 
+भगवदानन्द समुद्र "श्रीवृन्दावन” । 
+सम्मोहन धाम " श्रीवृन्दावन" । 
+समृद्धियुक्त अति उज्ज्वल " श्रीवृन्दावन” । 
+पूर्ण प्रेमामृत- समुद्र "श्रीवृन्दावन” । 
+मंजुल निकुंजों से सुशोभित " श्रीवृन्दावन" । 
+परम रसामृत माधुर्य "श्रीवृन्दावन" । 
+कुंज मण्डल महामनोहर " श्रीवृन्दावन" । 
+चिन्तामणियों से रचित " श्रीवृन्दावन” । 
+श्रीराधामुरलीधर परमधन " श्रीवृन्दावन' । 
+मोरवृन्दों से उल्लसित " श्रीवृन्दावन" ।
+वृक्षलता वृन्दों से सुशोभित " श्रीवृन्दावन" ।
+स्वयं प्रकाश अमृत समुद्र " श्रीवृन्दावन" ।
+वहुविधि सुगन्धि से सुवासित " श्रीवृन्दावन" ।
+मधुर से सुमधुर केलि परायण " श्रीवृन्दावन" ।
+महामधुर भाव दानकारी "श्रीवृन्दावन" ।
+श्रीराधामाधव का नित्य क्रीड़ावन "श्रीवृन्दावन" । 
+श्रीगौरश्याम का अविचल कन्दर्पकेलि स्थल " श्रीवृन्दावन" । 
+श्रीयुगल प्रेम की अद्भुत परिणति "श्रीवृन्दावन" । 
+माता के सदृश अतिशय स्नेहयुक्त "श्रीवृन्दावन" । 
+सर्वोत्कृष्ट साध्यों का एकमात्र अधिष्ठान "श्रीवृन्दावन" । 
+कोटि प्राण तुल्य परम प्रियतम " श्रीवृन्दावन" । 
+श्रीराधाकृष्ण का प्रधान प्रीतिवास "श्रीवृन्दावन" । 
+कलिन्द नन्दिनी से शोभित " श्रीवृन्दावन" । 
+हे प्रियतम श्रीवृन्दारण्य ! 
+कृपा करो! कृपा करो! कृपा करो ! 
+
+***
+
+(जो इस परम महिमा युक्त "श्रीवृन्दावनधाम नामावली' का नित्य पाठ करेगा, उसे अवश्य ही "श्रीवृन्दावनधाम का वास मिलेगा ।)
+
+***
+
+वृन्दावन वृन्दाविपिन, वृन्दा-कानन ऐन । 
+छिन छिन रसना रट्यौ करि, वृन्दावन सुखदैन ॥
+वृन्दावन वृन्दा कहत, दुरित वृन्द दुरि जाहिं । 
+नेह बेलि रस भजन की, तब उपजै हिय माहिं ॥
+वृन्दावन श्रवननि सुनहि, वृन्दावन कौ गान । 
+मन वच कै अति हेत सौं, वृन्दावन उर आन ॥ 
+वृन्दावन कौ नाम रटि, वृन्दावन कौं देखि । 
+वृन्दावन सौं प्रीति करि, वृन्दावन उर लेखि ॥
+    </div>
+</body>
+</html>

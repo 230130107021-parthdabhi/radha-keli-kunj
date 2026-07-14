@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>श्री हित स्फुट वाणी</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Laila:wght@400;500;600;700&family=Noto+Serif+Gujarati:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'LailaSemiBold';
+            src: url('../assets/fonts/Laila-SemiBold.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            background-color: #f7f6f0;
+            background: linear-gradient(135deg, #fdfdfb 0%, #f3f2ec 100%);
+            font-family: 'Laila', 'LailaSemiBold', serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px 80px 20px;
+            box-sizing: border-box;
+            color: #1c1917;
+        }
+
+        /* Fixed back navigation button */
+        .back-dashboard-btn {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            background-color: #ffffff;
+            border: 1px solid #e7e5e4;
+            border-radius: 30px;
+            padding: 10px 22px;
+            color: #881337;
+            text-decoration: none;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.25s ease;
+            z-index: 1000;
+        }
+
+        .back-dashboard-btn:hover {
+            background-color: #881337;
+            color: #ffffff;
+            border-color: #881337;
+            box-shadow: 0 8px 20px rgba(136, 19, 55, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Chapters Toggle Button */
+        .toc-toggle-btn {
+            position: fixed;
+            top: 80px;
+            left: 25px;
+            background-color: #ffffff;
+            border: 1px solid #e7e5e4;
+            border-radius: 30px;
+            padding: 10px 22px;
+            color: #b45309; /* Warm Amber */
+            text-decoration: none;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            z-index: 1000;
+        }
+
+        .toc-toggle-btn:hover {
+            background-color: #b45309;
+            color: #ffffff;
+            border-color: #b45309;
+            box-shadow: 0 8px 20px rgba(180, 83, 9, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .toc-dropdown {
+            position: fixed;
+            top: 135px;
+            left: 25px;
+            width: max-content;
+            max-width: 300px;
+            max-height: 380px;
+            overflow-y: auto;
+            background-color: #ffffff;
+            border: 1px solid #e7e5e4;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            padding: 10px;
+            box-sizing: border-box;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .toc-dropdown.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .toc-dropdown::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .toc-dropdown::-webkit-scrollbar-thumb {
+            background-color: #e7e5e4;
+            border-radius: 3px;
+        }
+
+        .toc-dropdown a {
+            font-family: 'Outfit', 'Laila', sans-serif;
+            font-size: 1.05em;
+            color: #44403c;
+            text-decoration: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+
+        .toc-dropdown a:hover {
+            background-color: #faf9f6;
+            color: #881337;
+            transform: translateX(4px);
+        }
+
+        /* Reading Card Container */
+        .content {
+            background-color: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
+            border: 1px solid #e7e5e4;
+            max-width: 900px;
+            width: 100%;
+            padding: 60px 50px;
+            box-sizing: border-box;
+            text-align: center;
+            white-space: pre-wrap;
+            font-size: 1.8em;
+            line-height: 1.85;
+            margin: 40px auto 0 auto;
+            position: relative;
+            font-weight: 500;
+        }
+
+        /* Book Title */
+        h2 {
+            font-family: 'Outfit', 'Laila', sans-serif;
+            font-size: 1.6em;
+            color: #881337;
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            border-bottom: 2px solid #881337;
+            padding-bottom: 15px;
+            display: inline-block;
+        }
+
+        /* Chapter Section & Anchor Scroll Adjustments */
+        section {
+            scroll-margin-top: 90px;
+            margin-top: 70px;
+            margin-bottom: 40px;
+            display: block;
+        }
+
+        section:empty {
+            margin: 0;
+            padding: 0;
+            height: 0;
+        }
+
+        /* Chapter Title Card Styling */
+        h3 {
+            font-family: 'Outfit', 'Laila', sans-serif;
+            font-size: 1.1em;
+            color: #b45309; /* Warm Amber */
+            background-color: #fdfaf2;
+            border: 1px solid #f6e3c5;
+            border-radius: 14px;
+            padding: 10px 24px;
+            display: inline-block;
+            margin: 0;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(180, 83, 9, 0.03);
+        }
+
+        /* Vyakhya block styling */
+        .vyakhya {
+            font-size: 0.85em;
+            color: #1c1917;
+            background-color: #fafaf9;
+            padding: 24px 30px;
+            border-left: 4px solid #881337;
+            margin: 25px auto;
+            border-radius: 4px 12px 12px 4px;
+            text-align: justify;
+            max-width: 800px;
+            line-height: 1.7;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.01);
+            font-family: 'Laila', 'LailaSemiBold', serif;
+            font-weight: 500;
+        }
+
+        /* Responsive adaptations */
+        @media (max-width: 1280px) {
+            body {
+                padding-top: 90px;
+            }
+            .back-dashboard-btn {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+            }
+            .toc-toggle-btn {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                left: auto;
+            }
+            .toc-dropdown {
+                position: absolute;
+                top: 75px;
+                right: 20px;
+                left: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 40px 20px;
+                font-size: 1.25em;
+                border-radius: 16px;
+            }
+            h2 {
+                font-size: 1.8em;
+            }
+            h3 {
+                font-size: 1.2em;
+            }
+            .vyakhya {
+                padding: 16px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-dashboard-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+      </svg>
+      मुख्य पृष्ठ / Home
+    </a>
+    <!-- Floating Toggle Button -->
+    <button id="tocToggleBtn" class="toc-toggle-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+      </svg>
+      सूचकांक / Chapters
+    </button>
+
+    <!-- Dropdown Menu -->
+    <div id="tocDropdown" class="toc-dropdown">
+      <a href="#1">1. द्वादस चन्द्र, कृतस्थल मंगल, बुद्ध विरुद्ध, सुर-गुरु बंक</a>
+      <a href="#2">2. भानु दसम्म, जनम्म निशापति, मंगल- बुद्ध शिवस्थल लीके</a>
+      <a href="#3">3. ना जानों छिन-अंत कवन बुधि घटहिं प्रकाशित</a>
+      <a href="#4">4. तू बालक नहिं भरयौ सयानप</a>
+      <a href="#5">5. चकई प्राण जु घट रहैं, पिय बिछुरंत निकज्ज</a>
+      <a href="#6">6. सारस सर बिछुरंत कौ, जो पल सहय शरीर</a>
+      <a href="#7">7. तैं भाजन कृत जटित विमल चन्दन कृत इन्धन</a>
+      <a href="#8">8. तातैं भैया मेरी सौं कृष्ण- गुण संचु</a>
+      <a href="#9">9. मानुष कौ तन पाय भजौ ब्रजनाथ कौं</a>
+      <a href="#10">10. तू रति रंग भरी देखियत है री राधे</a>
+      <a href="#11">11. आनँद आजु नन्द के द्वार</a>
+      <a href="#12">12. मोहन लाल के रंग राँची</a>
+      <a href="#13">13. मैं जु मोहन सुन्यौ वेणु गोपाल कौ</a>
+      <a href="#14">14. आज तू ग्वाल गोपाल सों खेलि री</a>
+      <a href="#15">15. वृषभानु नन्दिनी राजत हैं</a>
+      <a href="#16">16. चलौ वृषभानु गोप के द्वार</a>
+      <a href="#17">17. तेरौई ध्यान राधिका प्यारी, गोवर्द्धन धर लालहिं</a>
+      <a href="#18">18. आरती मदन गोपाल की कीजियै</a>
+      <a href="#19">19. आरती कीजै श्याम सुन्दर की</a>
+      <a href="#20">20. रहौ कोऊ काहू मनहिं दिये</a>
+      <a href="#21">21. हरि रसना राधा-राधा रट</a>
+      <a href="#22">22. लाल की रूप माधुरी, नैंनन निरख नेकु सखी</a>
+      <a href="#23">23. दोऊ जन भींजत अटके बातन</a>
+      <a href="#24">24. सबसौं हित, निष्काम मति, वृन्दावन विश्राम</a>
+    </div>
+
+    <div class="content"><h2>श्री हित स्फुट वाणी</h2>
+<section id="1"></section>
+[1]
+द्वादस चन्द्र, कृतस्थल मंगल, बुद्ध विरुद्ध, सुर-गुरु बंक ।
+यद्दि दसम्म भवन्न भृगू-सुत, मंद सु केतु जनम्म के अंक ॥
+अष्टम राहु, चतुर्थ दिवामणि, तौ हरिवंश करत्त न संक ।
+जो पै कृष्ण-चरण मन अर्पित, तौ करि हैं का नवग्रह रंक ॥
+
+<section id="2"></section>
+[2]
+भानु दसम्म, जनम्म निशापति, मंगल- बुद्ध शिवस्थल लीके ।
+जो गुरु होंय धरम्म-भवन्न के, तौ भृगु-नंद सुमंद नवीके ॥
+तीसरौ केतु समेत बिधु-ग्रस, तौ हरिवंश मन क्रम फीके ।
+गोविन्द छाँड़ि भ्रमंत दसौं दिस, तौ करि हैं का नवग्रह नीके ॥
+
+<section id="3"></section>
+[3]
+ना जानों छिन-अंत कवन बुधि घटहिं प्रकाशित ।
+छुटि चेतन जु अचेत तेऊ मुनि भये बिस-वासित ।।
+पारासर सुर इन्द्र कलप कामिनि मन फंद्या ।
+परि व देह दुख-द्वन्द कौन क्रम-काल निकंद्या ॥
+इहि डरहि डरपि हरिवंश हित, जिनव भ्रमहि गुण-सलिल पर ।
+जिहि नामन मंगल लोक तिहुँ, सु हरि-पद भजु न विलम्ब कर ॥
+
+<section id="4"></section>
+[4]
+तू बालक नहिं भरयौ सयानप,
+काहे कृष्ण भजत नहिं नीके ।
+अतिव सुमिष्ट तजिव सुरभिन-पय,
+मन बंधत तंदुल-जल फीके ॥
+(जै श्री) हित हरिवंश नर्क गति दूरभर, 
+यमद्वारे कटियत नक छींके ।
+भव-अज कठिन, मुनीजन दुर्लभ, 
+पावत क्यौं जु मनुज तन भीके ॥
+
+<section id="5"></section>
+[5]
+चकई प्राण जु घट रहैं, पिय बिछुरंत निकज्ज ।
+सर-अन्तर अरु काल-निशि, तरफ तेज घन गज्ज ॥
+तरफ तेज घन गज्ज लज्ज तुहि वदन न आवै ।
+जल-विहून करि नैंन भोर किहिं भाय बतावै ॥
+(जै श्री) हित हरिवंश विचारि बाद अस कौन जु बकई ।
+सारस यह सन्देह प्राण घट रहैं जु चकई ॥
+
+<section id="6"></section>
+[6]
+सारस सर बिछुरंत कौ, जो पल सहय शरीर ।
+अगिन अनंग जु तिय भखै, तौ जानै पर-पीर ॥
+तौ जानै पर-पीर धीर धरि सकहि बज्र तन ।
+मरत सारसहिं फूट पुनि न परचौ जु लहत मन ॥
+(जै श्री) हित हरिवंश विचारि प्रेम विरहा बिन वा रस ।
+निकट कंत नित रहत मरम कह जानै सारस ॥
+
+<section id="7"></section>
+[7]
+तैं भाजन कृत जटित विमल चन्दन कृत इन्धन ।
+अमृत पूरि तिहि मध्य करत सरषप-खल रिन्धन ॥
+अद्भुत धर पर करत कष्ट कंचन-हल वाहत ।
+बार करत पाँवार मन्द बोवन विष चाहत ॥
+(जै श्री) हित हरिवंश विचारिकै, मनुज-देह गुरु-चरण गहि ।
+सकहि तौ सब परपंच तजि, कृष्ण-कृष्ण गोविन्द कहि ॥
+
+<section id="8"></section>
+[8]
+तातैं भैया मेरी सौं कृष्ण- गुण संचु ।
+कुत्सित वाद विकारहिं परधन,
+सुनु सिख मंद परतिय बंचु ।
+मणिगण-पुंज ब्रजपति छाँड़त, हित हरिवंश कर गहि कंचु ॥
+पाये जान जगत में सब जन, कपटी कुटिल कलियुग-टंचु ।
+इहि-परलोक सकल सुख पावत, मेरी सौं कृष्ण-गुण संचु ॥
+
+<section id="9"></section>
+[9]
+मानुष कौ तन पाय भजौ ब्रजनाथ कौं ।
+दर्बी लैकैं मूढ़ जरावत हाथ कौं ॥
+(जै श्री) हित हरिवंश प्रपंच, विषय-रस मोह के ।
+(हरि हाँ) बिन कंचन क्यौं चलैं पचीसा लोहके ॥
+
+<section id="10"></section>
+[10]
+तू रति रंग भरी देखियत है री राधे,
+रहसि रमी मोहन सौं व रैन ।
+गति अति शिथिल, प्रगट पलटे पट,
+गौर अंग पर राजत एैन ।।
+जलज कपोल, ललित लटकत लट, 
+भृकुटि कुटिल ज्यौं धनुष धृत मैन ।
+सुन्दरि रहव कँहव कंचुकि कत,
+कनक कलश कुच बिच नख दैन ॥
+अधर बिंब दलमलित आरसयुत,
+अरु आनंद सूचत सखि नैन ।
+(जै श्री) हित हरिवंश दुरत नहिं नागरि,
+नागर मधुप मथत सुख सैन ॥
+
+<section id="11"></section>
+[11]
+आनँद आजु नन्द के द्वार ।
+दास अनन्य भजन-रस कारन,
+प्रगटे लाल मनोहर ग्वार ॥
+चन्दन सकल धेनु तन मण्डित,
+कुसुम - दाम शोभित आगार ।
+पूरन कुम्भ बने तोरन पर,
+बीच रुचिर पीपर की डार ॥
+युवति यूथ मिल गोप विराजत,
+बाजत पणव, मृदंग सुतार ।
+(जै श्री) हित हरिवंश अजिर वर वीथिनु,
+दधि-मधि-दूध हरद के खार ॥
+
+<section id="12"></section>
+[12]
+मोहन लाल के रंग राँची ।
+मेरे ख्याल परौ जिन कोऊ, बात दसौं-दिस माँची ॥
+कंत अनंत करौ जो कोऊ, बात कहौं सुनि साँची ।
+यह जिय जाहु भलैं सिर ऊपर, हौं व प्रगट ह्वै नाँची ॥
+जाग्रत-सयन रहत उर ऊपर, मणि कंचन ज्यौं पाँची ।
+(जै श्री) हित हरिवंश डरौं काके डर, हौं नाहिन मति काँची ॥
+
+<section id="13"></section>
+[13]
+मैं जु मोहन सुन्यौ वेणु गोपाल कौ ।
+व्योम मुनियान, सुर-नारि विथकित भईं,
+कहत नहिं बनत कछु भेद यति-ताल कौ ॥
+स्रवन कुण्डल छुरित, रुरत कुन्तल ललित, 
+रुचिर कस्तूरि चन्दन तिलक भाल कौ ।
+चंद गति मंद भई, निरखि छबि काम गई,
+देखि हरिवंश हित वेष नंदलाल कौ ॥
+
+<section id="14"></section>
+[14]
+आज तू ग्वाल गोपाल सों खेलि री ।
+छाँड़ि अति मान, बन, चपल चलि भामिनी,
+तरु तमाल सों अरुझ कनक की बेलि री ।
+सुभट सुन्दर ललन, ताप परबल दमन,
+तू व ललना रसिक काम की केलि री ।
+वेणु कानन कुनित, स्रवन सुन्दरि सुनत,
+मुक्ति सम सकल सुख पाय पग पेलि री ॥
+विरह-व्याकुल नाथ, गान गुन युवति तव, ।
+निरखि मुख काम कौ कदन अवहेलि री ।
+सुनत हरिवंश हित, मिलत राधारवन,
+कंठ भुज मेलि, सुख-सिंधु में झेलि री ॥
+
+<section id="15"></section>
+[15]
+वृषभानु नन्दिनी राजत हैं ।
+सुरत-रंग-रस भरी भामिनी,
+सकल नारि सिर गाजत हैं ॥
+इत-उत चलत, परत दोऊ पग,
+मद-गयंद गति लाजत हैं ।
+अधर निरंग, रंग गंडन पर,
+कटक काम कौ साजत हैं ॥
+उर पर लटकि रही लट कारी,
+कटिव किंकिणी बाजत हैं ।
+(जै श्री) हित हरिवंश पलटि प्रीतम पट,
+जुवति जुगति सब छाजत हैं ॥
+
+<section id="16"></section>
+[16]
+चलौ वृषभानु गोप के द्वार ।
+जन्म लियौ मोहन हित श्यामा,
+आनन्द - निधि सुकुमार ॥
+गावत जुवति मुदित मिलि मंगल,
+उच्च मधुर धुनि-धार ।
+विविध कुसुम किसलय कोमल दल,
+शोभित बन्दन बार ॥
+विदित वेद-विधि विहित विप्रवर, 
+करि स्वस्तिनु उच्चार ।
+मृदुल मृदंग मुरज भेरी डफ,
+दिवि दुंदुभि रवकार ॥
+मागध सूत बन्दी चारन जस,
+कहत पुकार-पुकार ।
+हाटक हीर चीर पाटम्बर,
+देत सम्हार-सम्हार ॥
+चन्दन सकल धेनु - तन मण्डित,
+चले जु ग्वाल सिंगार ।
+(जै श्री) हित हरिवंश दुग्ध-दधि छिरकत,
+मध्य हरिद्रा गार ॥
+
+<section id="17"></section>
+[17]
+तेरौई ध्यान राधिका प्यारी, गोवर्द्धन धर लालहिं ।
+कनक लता सी क्यौं न विराजत, अरुझी श्याम तमालहिं ॥
+गौरी गान सु तान ताल गहि, रिझवत क्यौं न गुपालहिं ।
+यह जोवन कंचन तन ग्वालिन, सफल होत इहि कालहिं ॥
+मेरे कहे विलंब न करि सखि, भूरि भाग अति भालहिं ।
+(जै श्री) हित हरिवंश उचित हौं चाहत, श्याम कंठ की मालहिं ॥
+
+<section id="18"></section>
+[18]
+आरती मदन गोपाल की कीजियै ।
+देव, ऋषि, व्यास, शुकदास सब कहत निज,
+क्यौं न बिन कष्ट रस - सिन्धु कौं पीजियै ॥
+अगर करि धूप कुमकुम मलय रंजित,
+नव वर्तिका घृत सों पूरि राखौ ।
+कुसुम कृत माल नँदलाल के भाल पर,
+तिलक करि प्रगट यश क्यौं न भाखौ ॥
+भोग प्रभु योग भरि थार धरि कृष्ण पै,
+मुदित भुज दण्डवर चँवर ढारौ ।
+आचमन पान हित मिलत कर्पूर जल,
+सुभग मुख वास, कुल-ताप जारौ ॥
+शंख दुंदुभि पणव घंट कल वेणु रव,
+झल्लरी सहित स्वर सप्त नाँचौ ।
+मनुज तन पाय यह दाय ब्रजराज भज,
+सुखद हरिवंश प्रभु क्यौं न याँचौ ॥
+
+<section id="19"></section>
+[19]
+आरती कीजै श्याम सुन्दर की ।
+नन्द के नन्दन राधिका वर की ॥
+भक्ति करि दीप प्रेम करि बाती ।
+साधु संगति करि अनुदिन राती ॥
+आरती ब्रजयुवति यूथ मन भावै ।
+श्याम लीला (श्री) हरिवंश हित गावै ॥
+
+<section id="20"></section>
+[20]
+रहौ कोऊ काहू मनहिं दिये ।
+मेरे प्राण नाथ श्रीश्यामा, शपथ करौं तृण छिये ॥
+जे अवतार कदम्ब भजत हैं, धरि दृढ़ व्रत जु हिये ।
+तेऊ उमगि तजत मर्यादा, बन बिहार रस पिये ॥
+खोये रतन फिरत जे घर-घर, कौन काज ऐसे जिये ।
+(जै श्री) हित हरिवंश अनत सचु नाहीं, बिनु या रजहिं लिये ॥
+
+<section id="21"></section>
+[21]
+हरि रसना राधा-राधा रट ।
+अति अधीन आतुर यद्यपि पिय, कहियत है नागर नट ॥
+संभ्रम द्रुम, परिरंभन कुंजन, ढूँढ़त कालिंदी तट ।
+विलपत, हँसत, विषीदत, स्वेदत, सतु सींचत अँसुवन वंशीवट ॥
+अंगराग परिधान वसन, लागत ताते जु पीत पट ।
+(जै श्री) हित हरिवंश प्रसंसत श्यामा, दै प्यारी कंचन घट ॥
+
+<section id="22"></section>
+[22] 
+लाल की रूप माधुरी, नैंनन निरख नेकु सखी ।
+मनसिज-मन हरन हास, साँवरौ सुकुमार रासि,
+नख सिख अंग अंगन उमँगि, सौभग सींव नखी ॥
+रँगमगी सिर सुरँग पाग, लटकि रही वाम भाग,
+चंप कली कुटिल अलक, बीच-बीच रखी ।
+आयत दृग अरुण लोल, कुण्डल मण्डित कपोल,
+अधर दसन दीपति की छवि, क्यौं हूँ न जात लखी ॥
+अभयद भुज दण्ड मूल, पीन अंश सानुकूल,
+कनक निकष लसि दुकूल, दामिनी धरखी ।
+उर पर मंदार - हार, मुक्ता-लर वर सुढार,
+मत्त दुरद गति, तियन की, देह-दसा करखी ॥
+मुकुलित वय नव किशोर, वचन रचन चित के चोर,
+मधु रितु पिक शाव नूत, मंजरी चखी ।
+(जै श्री) नटवत हरिवंश गान, रागिनी कल्यान तान,
+सप्त स्वरन कल, इते पर, मुरलिका बरखी ॥
+
+<section id="23"></section>
+[23]
+दोऊ जन भींजत अटके बातन ।
+सघन कुंज के द्वारे ठाड़े, अम्बर लपटे गातन ॥
+ललिता ललित रूप रस भींजी, बूँद बचावत पातन ।
+(जै श्री) हित हरिवंश परस्पर प्रीतम, मिलवत रति रस घातन ॥
+
+<section id="24"></section>
+[24]
+सबसौं हित, निष्काम मति, वृन्दावन विश्राम ।
+श्रीराधावल्लभ लाल कौ, हृदय ध्यान मुख नाम ॥ १ ॥
+तनहिं राखि सतसंग में, मनहिं प्रेम रस भेव ।
+सुख चाहत हरिवंश हित, कृष्ण कल्पतरु सेव ॥ २ ॥
+निकसि कुंज ठाड़े भये, भुजा परस्पर अंश ।
+श्रीराधावल्लभ मुख कमल, निरखि नैंन हरिवंश ॥ ३ ॥
+रसना कटौ जु अन रटौं, निरखि अनफुटौ नैंन ।
+श्रवण फुटौ जो अनसुनौं, श्री राधा यश बैंन ॥ ४ ॥
+
+॥ जय जय श्रीहित हरिवंशचन्द्र विरचिता श्रीहित स्फुट वाणी जू की जय जय श्रीहित हरिवंश ॥
+    </div>
+    <script>
+        const toggleBtn = document.getElementById('tocToggleBtn');
+        const dropdown = document.getElementById('tocDropdown');
+        const tocLinks = document.querySelectorAll('.toc-dropdown a');
+
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdown.classList.toggle('open');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!dropdown.contains(e.target) && e.target !== toggleBtn) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        tocLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                dropdown.classList.remove('open');
+            });
+        });
+    </script>
+</body>
+</html>

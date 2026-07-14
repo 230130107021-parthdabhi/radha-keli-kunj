@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>पदावली</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Laila:wght@400;500;600;700&family=Noto+Serif+Gujarati:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'LailaSemiBold';
+            src: url('../assets/fonts/Laila-SemiBold.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            background-color: #f7f6f0;
+            background: linear-gradient(135deg, #fdfdfb 0%, #f3f2ec 100%);
+            font-family: 'Laila', 'LailaSemiBold', serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px 80px 20px;
+            box-sizing: border-box;
+            color: #1c1917;
+        }
+
+        /* Fixed back navigation button */
+        .back-dashboard-btn {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            background-color: #ffffff;
+            border: 1px solid #e7e5e4;
+            border-radius: 30px;
+            padding: 10px 22px;
+            color: #881337;
+            text-decoration: none;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.25s ease;
+            z-index: 1000;
+        }
+
+        .back-dashboard-btn:hover {
+            background-color: #881337;
+            color: #ffffff;
+            border-color: #881337;
+            box-shadow: 0 8px 20px rgba(136, 19, 55, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Chapters Toggle Button */
+        .toc-toggle-btn {
+            position: fixed;
+            top: 80px;
+            left: 25px;
+            background-color: #ffffff;
+            border: 1px solid #e7e5e4;
+            border-radius: 30px;
+            padding: 10px 22px;
+            color: #b45309; /* Warm Amber */
+            text-decoration: none;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            z-index: 1000;
+        }
+
+        .toc-toggle-btn:hover {
+            background-color: #b45309;
+            color: #ffffff;
+            border-color: #b45309;
+            box-shadow: 0 8px 20px rgba(180, 83, 9, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .toc-dropdown {
+            position: fixed;
+            top: 135px;
+            left: 25px;
+            width: max-content;
+            max-width: 300px;
+            max-height: 380px;
+            overflow-y: auto;
+            background-color: #ffffff;
+            border: 1px solid #e7e5e4;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            padding: 10px;
+            box-sizing: border-box;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .toc-dropdown.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .toc-dropdown::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .toc-dropdown::-webkit-scrollbar-thumb {
+            background-color: #e7e5e4;
+            border-radius: 3px;
+        }
+
+        .toc-dropdown a {
+            font-family: 'Outfit', 'Laila', sans-serif;
+            font-size: 1.05em;
+            color: #44403c;
+            text-decoration: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+
+        .toc-dropdown a:hover {
+            background-color: #faf9f6;
+            color: #881337;
+            transform: translateX(4px);
+        }
+
+        /* Reading Card Container */
+        .content {
+            background-color: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
+            border: 1px solid #e7e5e4;
+            max-width: 900px;
+            width: 100%;
+            padding: 60px 50px;
+            box-sizing: border-box;
+            text-align: center;
+            white-space: pre-wrap;
+            font-size: 1.8em;
+            line-height: 1.85;
+            margin: 40px auto 0 auto;
+            position: relative;
+            font-weight: 500;
+        }
+
+        /* Book Title */
+        h2 {
+            font-family: 'Outfit', 'Laila', sans-serif;
+            font-size: 1.6em;
+            color: #881337;
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            border-bottom: 2px solid #881337;
+            padding-bottom: 15px;
+            display: inline-block;
+        }
+
+        /* Chapter Section & Anchor Scroll Adjustments */
+        section {
+            scroll-margin-top: 90px;
+            margin-top: 70px;
+            margin-bottom: 40px;
+            display: block;
+        }
+
+        section:empty {
+            margin: 0;
+            padding: 0;
+            height: 0;
+        }
+
+        /* Chapter Title Card Styling */
+        h3 {
+            font-family: 'Outfit', 'Laila', sans-serif;
+            font-size: 1.1em;
+            color: #b45309; /* Warm Amber */
+            background-color: #fdfaf2;
+            border: 1px solid #f6e3c5;
+            border-radius: 14px;
+            padding: 10px 24px;
+            display: inline-block;
+            margin: 0;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(180, 83, 9, 0.03);
+        }
+
+        /* Vyakhya block styling */
+        .vyakhya {
+            font-size: 0.85em;
+            color: #1c1917;
+            background-color: #fafaf9;
+            padding: 24px 30px;
+            border-left: 4px solid #881337;
+            margin: 25px auto;
+            border-radius: 4px 12px 12px 4px;
+            text-align: justify;
+            max-width: 800px;
+            line-height: 1.7;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.01);
+            font-family: 'Laila', 'LailaSemiBold', serif;
+            font-weight: 500;
+        }
+
+        /* Responsive adaptations */
+        @media (max-width: 1280px) {
+            body {
+                padding-top: 90px;
+            }
+            .back-dashboard-btn {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+            }
+            .toc-toggle-btn {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                left: auto;
+            }
+            .toc-dropdown {
+                position: absolute;
+                top: 75px;
+                right: 20px;
+                left: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 40px 20px;
+                font-size: 1.25em;
+                border-radius: 16px;
+            }
+            h2 {
+                font-size: 1.8em;
+            }
+            h3 {
+                font-size: 1.2em;
+            }
+            .vyakhya {
+                padding: 16px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-dashboard-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+      </svg>
+      मुख्य पृष्ठ / Home
+    </a>
+
+    <!-- Floating Toggle Button -->
+    <button id="tocToggleBtn" class="toc-toggle-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+      </svg>
+      सूचकांक / Chapters
+    </button>
+
+    <!-- Dropdown Menu -->
+    <div id="tocDropdown" class="toc-dropdown">
+      <a href="#1">1. रहौ कोउ काहू मनहिं दिये</a>
+      <a href="#2">2. हमारे माई स्यामा जू कौ राज</a>
+      <a href="#3">3. मेरी महारानी श्री राधारानी</a>
+      <a href="#4">4. मेरे बल श्रीवृन्दावनरानी</a>
+      <a href="#5">5. परम धन राधा नाम अधार</a>
+      <a href="#6">6. धनि धनि राधिका के चरण</a>
+      <a href="#7">7. जयति श्री राधिके सकल सुख साधिके</a>
+      <a href="#8">8. जावक जुत जुग चरण लली के</a>
+      <a href="#9">9. हमारी सब ही बात सुधारी</a>
+      <a href="#10">10. चाँपत चरन मोहनलाल</a>
+      <a href="#11">11. अब मैं वृंदावन धन पायौ</a>
+      <a href="#12">12. मुख चन्द्र की यह चाँदनी</a>
+      <a href="#13">13. सहज सुभाव पर्यो नवल किसोरी जू कौ</a>
+      <a href="#14">14. ऐसी करौ नव लाल रंगीले जू</a>
+      <a href="#15">15. हौं निज सखियनि की बलिहारी</a>
+      <a href="#16">16. श्यामा जू के चरननि की बलिहारी</a>
+      <a href="#17">17. किसोरी तेरे चरननि की रज पाऊँ</a>
+      <a href="#18">18. किसोरी मोहि अपनी करि लीजै</a>
+      <a href="#19">19. बसौ मेरे नैंनन में दोउ चंद</a>
+      <a href="#20">20. रे मन वृन्दाविपिन निहार</a>
+      <a href="#21">21. ऐसैंई देखत रहौं जनम सुफल करि मानौं</a>
+      <a href="#22">22. हौं बलिजाऊँ नागरी श्याम</a>
+      <a href="#23">23. लालन तेरेई आधीन</a>
+    </div>
+
+    <div class="content"><h2>पदावली</h2>
+
+<section id="1"></section>
+[1]
+रहौ कोउ काहू मनहिं दिये ।
+मेरे प्राणनाथ श्री श्यामा, शपथ करौं तृण छिये ॥
+जे अवतार कदम्ब भजत हैं, धरि दृढ़ व्रत जु हिये ।
+तेऊ उमगि तजत मर्यादा, वन बिहार रस पिये ॥
+खोये रतन फिरत जे घर-घर, कौंन काज ऐसे जिये ।
+जैश्रीहित हरिवंश अनत सचु नाहीं, बिनु या रजहिं लिये ॥
+
+<section id="2"></section>
+[2]
+हमारे माई स्यामा जू कौ राज ।
+जाके अधीन सदाई साँवरौ या ब्रज कौ सिरताज ॥
+यह जोरी अविचल वृन्दावन नाहिंन आन सौं काज ।
+श्री वीठलविपुल बिहारिनि के बल दिन जलधर ज्यौं गाज ॥
+
+<section id="3"></section>
+[3]
+मेरी महारानी श्री राधारानी ।
+जाके बल मैं सब सौं तोरी, लोक- बेद-कुल-कानी ॥
+लाल बिहारी कौ प्रान जीवन धन, बारि पियत नित पानी ।
+भगवत रसिक सहायक सब दिन, सर्वोपरि सुखदानी ॥
+
+<section id="4"></section>
+[4]
+मेरे बल श्रीवृन्दावनरानी ।
+जाहि निरंतर सेवत मोहन, वन विनोद सुखदानी ॥
+जिनकी चरन-कृपा तें पाई, कुंज केलि रस सानी ।
+जयश्रीरूपलाल हित हाथ बिकानी, निधि पाई मनमानी ॥
+
+<section id="5"></section>
+[5]
+परम धन राधा नाम अधार ।
+जाहि श्याम मुरली में गावत, सुमिरत बारम्बार ॥
+वेद-शास्त्र अरु जन्त्र-मन्त्र में, यही कियौ निरधार ।
+सहचरि रूप धरयौ नंदनन्दन, तोउ न पायौ पार ॥
+श्रीशुक प्रगट कियौ नहिं यातें, जानि सार कौ सार ।
+व्यासदास अब प्रगट वखानत, डारि भार में भार ॥
+
+<section id="6"></section>
+[6]
+धनि धनि राधिका के चरण ।
+सुभग शीतल परम कोमल, कमल के से वरण ।।
+नख चंद्र चारु अनूप राजत,विविध शोभा भरण ।
+कुनित नूपुर कुंज बिहरत,परम् कौतुक करण ।।
+नंदसुत मन मोद कारी,विरह सागर तरण ।
+दास परमानन्द छिन छिन, स्याम जिनकी शरण ।।
+
+<section id="7"></section>
+[7]
+जयति श्री राधिके सकल सुख साधिके,
+तरुनि मणि नित्य नौतन किशोरी ।
+कृष्ण तन नील घन रूप की चातकी,
+कृष्ण मुख हिम किरण की चकोरी ।।
+
+कृष्ण दृग भृंग विश्राम हित पद्मिनी,
+कृष्ण दृग मृगज बन्धन सु डोरी ।
+कृष्ण अनुराग मकरंद की मधुकरी,
+कृष्ण गुण गान रस सिन्धु बोरी ।।
+
+परम् अद्भुत अलौकिक मेरी गति,
+लख मनसि साँवरे रंग अंग गोरी ।
+और आश्चर्य मैं कहूँ न देख्यो,
+सुन्यो चतुर चौंसठ कला तदपि भोरी ।।
+
+विमुख पर चित्त ते चित्त जाको सदा,
+करत निजनाह की चित्त चोरी ।
+प्रकृत यह 'गदाधर' कहत कैसे बने,
+अमित महिमा इते बुद्धि थोरी ।।
+
+<section id="8"></section>
+[8]
+जावक जुत जुग चरण लली के ।
+अद्भुत, अमल, अनूप, दिवाकर, मोहन मानस कंज कली के ॥
+मंजुल, मृदुल मनोहर, सुखनिधि, सुभग सिंगार निकुंज गली के ।
+सुरतरु कामधेनु, चिंतामणि, भगवत रसिक अनन्य अली के ॥
+
+<section id="9"></section>
+[9]
+हमारी सब ही बात सुधारी ।
+कृपा करो श्री कुंजबिहारिनि, अरु श्रीकुंजबिहारी ॥
+राख्यौ अपने बृन्दाबन में, जिहि ठाँ रूप-उजारी ।
+नित्यकेलि-आनन्द अखंडित, रसिक संग सुखकारी ॥
+कलह-कलेस न व्यापै इहि ठाँ,ठौर विश्व ते न्यारी ।
+‘नागरिदासहि' जनम जितायो, बलिहारी, बलिहारी ॥
+
+<section id="10"></section>
+[10]
+चाँपत चरन मोहनलाल ।
+पलंग पौढीं कँवरि राधे सुन्दरी व्रजवाल ॥
+कबहुँ कर गहि नैन लावत कबहुँ छुवावत भाल ।
+'नंददास' प्रभु छवि निहारत प्रीति के प्रति पाल ।
+
+<section id="11"></section>
+[11]
+अब मैं वृंदावन धन पायौ ।
+राधा चरण सरन मन दीनौ, मोहनलाल रिझायौ ॥
+सूतौ हुतौ विषै मन्दिरमें, हितगुरु टेरि जगायौ ।
+अबतौ व्यास विहार विलोकत, सुक, नारद मुनि गायौ ॥
+
+<section id="12"></section>
+[12]
+मुख चन्द्र की यह चाँदनी, हिय कुञ्ज में छाई रहै ।
+छवि पान मत्त चकोर अखियाँ, देखि बौराई रहे ।।
+यह कोर करुणा सिंधु की, लहरी हिलोरत ही रहै ।
+यह प्रेम की उमगन उमंग जुत, जीय बोरत ही रहै ।।
+यह बंक चितवन नैन की, हियरा में नित धँसती रहै ।
+यह चारु छूटी लटन ऊपर, मो सुरत फँसती रहै ।।
+यह बाँह फरकीली सदा, भुज दीन पकरत रहै ।
+यह माधुरी के जाल तन-मति, मेरी जकरत ही रहै ।।
+नख चन्द की यह ज्योति हिय, तम-तोम टारत ही रहै ।
+यह बाण करुणा की सदा, बिगड़ी सुधारत ही रहै ।।
+यह आँख मेरी लाडिले, मग रावरौ हेरत रहै ।
+यह मेरी रसना चातकी, रस-घन तुम्हें टेरत रहै ।।
+जहँ-जहँ परै मम दीठ जागत रावरी छवि लखि परै ।
+सोवते-सपने न हिय सौं, आपकी मूरति टरै ।।
+भोरी हित जन दीन की, बिनती अबसि यह मानिये ।
+कोटि जन्मन की भिखारिन, आपुनी पहिचानिये ।।
+
+<section id="13"></section>
+[13]
+सहज सुभाव पर्यो नवल किसोरी जू कौ,
+मृदुता दयालुता कृपालुता की रासि हैं ।
+नैंकहू न रिस कैहूँ भूलेहूँ न होत सखी,
+रहत प्रसन्न सदा हियँ मुख हाँसि हैं ॥
+ऐसी सुकुमारी प्यारे लाल जू की प्रान-प्यारी,
+धन्य-धन्य-धन्य तेई जे इनके उपासि हैं ।
+'हित ध्रुव' और सुख देखियत जहाँ लगि,
+सुनियत तहाँ लगि सबै दुख-पासि हैं ॥
+
+<section id="14"></section>
+[14]
+ऐसी करौ नव लाल रंगीले जू, चित्त न और कहूँ ललचाई ।
+जे सुख-दुक्ख रहे लगि देह सौं, ते मिटि जाहिं अरु लोक-बड़ाई ।।
+संगति साधु वृन्दावन कानन, तव गुन गाननि माँझ बिहाई ।
+छबि-कंज चरन्न तिहारे बसौ उर, देहु यहै ध्रुव कौं ध्रुवताई ॥
+
+<section id="15"></section>
+[15]
+हौं निज सखियनि की बलिहारी ।
+जुगल-प्रीति अरु रूप जिनहिं कै, जीवन यहै सुधा री ॥
+नैंननि मग ह्वै पान करत दिन, तिहिं रस में रहें लीन ।
+सहि न सकत पल पलकनि अंतर, जैसैं जल तें मीन ॥
+छिन छिन नवल प्रिया सुख चाहत, और न मन कछु भावत ।
+'हित ध्रुव' जिहिं विधि रुचि प्यारी मन, तिहिं -तिहिं भाँति लड़ावत ॥
+
+<section id="16"></section>
+[16]
+श्यामा जू के चरननि की बलिहारी ।
+जे हैं बसत किशोर लाल के, प्रॉननि मध्य सदा री ॥
+विहरत कुसुम पराग लगत जब, पीत वसन लै झारत ।
+लुठत मयूर चंद्रिका तिन तर, अद्भुत छबिहि निहारत ॥
+जावक चित्र बनाइ सँवारत करनि सफल तब मानत ।
+'हित ध्रुव' ते दुर्लभ सबहिनु तें, रसिक मरम पै जानत ॥
+
+<section id="17"></section>
+[17]
+किसोरी तेरे चरननि की रज पाऊँ ।
+बैठी रहौं कुंजन के कौनैं, स्याम राधिका गाऊँ ॥
+या रज सिव सनकादिक याचत, सो रज सीस चढ़ाऊँ ।
+व्यास स्वामिनी की छबि निरखत, विमल विमल जस गाऊँ ॥
+
+<section id="18"></section>
+[18]
+किसोरी मोहि अपनी करि लीजै ।
+और दियें कछू भावत नाहीं, श्रीवृन्दावन रज दीजै ॥
+खग मृग पशु पंछी या वन के, चरन शरन रख लीजै ।
+व्यास स्वामिनी की छबि निरखत, महल टहलनी कीजै ॥
+
+<section id="19"></section>
+[19]
+बसौ मेरे नैंनन में दोउ चंद ।
+गौर बरन वृषभानुनंदिनी, श्याम बरन नँदनन्द ॥
+गोलक रहे लुभाय रूप में, निरखत आनँद कंद ।
+जै श्रीभट्ट प्रेम रस बंधन, क्यों छूटै दृढ़ फंद ॥
+
+<section id="20"></section>
+[20]
+रे मन वृन्दाविपिन निहार ।
+जद्यपि मिलैं कोटि चिंतामणि तदपि न हाथ पसार ॥
+विपिनराज सीमा के बाहर हरिहू को न निहार ।
+जै श्रीभट्ट धूरि धूसर तन यह आसा उर धार ॥
+
+<section id="21"></section>
+[21]
+ऐसैंई देखत रहौं जनम सुफल करि मानौं ।
+प्यारे की भाँवती भाँवती के प्राण प्यारे जुगल किसोरहिं जानौं ॥
+छिन न टरौ पल होहु न इत उत रहौ एक ही तानौं ।
+श्रीहरिदास के स्वामी स्यामा कुंजबिहारी मन रानौं ॥
+
+<section id="22"></section>
+[22]
+हौं बलिजाऊँ नागरी श्याम ।
+ऐसे ही रंग करौ निसि वासर, वृन्दाविपिन कुटी अभिराम ॥
+हास विलास सुरत रस सींचन, पशुपति-दग्ध जिवावत काम ।
+जै श्रीहित हरिवंश लोल लोचन अलि, करहु न सफल सकल सुखधाम ॥
+
+<section id="23"></section>
+[23]
+लालन तेरेई आधीन ।
+सुनि री सखी हौं साँचि कहति हौं, तू जल है ये मीन ॥
+तेरेहि रस-बस स्यामसुंदर वर, जाँचत हैं ज्यौं दीन ।
+श्री विट्ठल बिपुल बिनोद बिहारी, होत मनावत लीन ॥
+
+    </div>
+    <script>
+        const toggleBtn = document.getElementById('tocToggleBtn');
+        const dropdown = document.getElementById('tocDropdown');
+        const tocLinks = document.querySelectorAll('.toc-dropdown a');
+
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdown.classList.toggle('open');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!dropdown.contains(e.target) && e.target !== toggleBtn) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        tocLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                dropdown.classList.remove('open');
+            });
+        });
+    </script>
+</body>
+</html>

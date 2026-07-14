@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="gu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>શ્રીયમુનાષ્ટકમ્</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Laila:wght@400;500;600;700&family=Noto+Serif+Gujarati:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'LailaSemiBold';
+            src: url('../assets/fonts/Laila-SemiBold.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            background-color: #f7f6f0;
+            background: linear-gradient(135deg, #fdfdfb 0%, #f3f2ec 100%);
+            font-family: 'Noto Serif Gujarati', serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px 80px 20px;
+            box-sizing: border-box;
+            color: #1c1917;
+        }
+
+        /* Fixed back navigation button */
+        .back-dashboard-btn {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            background-color: #ffffff;
+            border: 1px solid #e7e5e4;
+            border-radius: 30px;
+            padding: 10px 22px;
+            color: #881337;
+            text-decoration: none;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.25s ease;
+            z-index: 1000;
+        }
+
+        .back-dashboard-btn:hover {
+            background-color: #881337;
+            color: #ffffff;
+            border-color: #881337;
+            box-shadow: 0 8px 20px rgba(136, 19, 55, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Chapters Toggle Button */
+        .toc-toggle-btn { display: none !important; }
+        .toc-toggle-btn {
+            position: fixed;
+            top: 80px;
+            left: 25px;
+            background-color: #ffffff;
+            border: 1px solid #e7e5e4;
+            border-radius: 30px;
+            padding: 10px 22px;
+            color: #b45309; /* Warm Amber */
+            text-decoration: none;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            z-index: 1000;
+        }
+
+        .toc-toggle-btn:hover {
+            background-color: #b45309;
+            color: #ffffff;
+            border-color: #b45309;
+            box-shadow: 0 8px 20px rgba(180, 83, 9, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .toc-dropdown {
+            position: fixed;
+            top: 135px;
+            left: 25px;
+            width: max-content;
+            max-width: 300px;
+            max-height: 380px;
+            overflow-y: auto;
+            background-color: #ffffff;
+            border: 1px solid #e7e5e4;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            padding: 10px;
+            box-sizing: border-box;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .toc-dropdown.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .toc-dropdown::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .toc-dropdown::-webkit-scrollbar-thumb {
+            background-color: #e7e5e4;
+            border-radius: 3px;
+        }
+
+        .toc-dropdown a {
+            font-family: 'Outfit', 'Laila', sans-serif;
+            font-size: 1.05em;
+            color: #44403c;
+            text-decoration: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+
+        .toc-dropdown a:hover {
+            background-color: #faf9f6;
+            color: #881337;
+            transform: translateX(4px);
+        }
+
+        /* Reading Card Container */
+        .content {
+            background-color: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
+            border: 1px solid #e7e5e4;
+            max-width: 900px;
+            width: 100%;
+            padding: 60px 50px;
+            box-sizing: border-box;
+            text-align: center;
+            white-space: pre-wrap;
+            font-size: 1.8em;
+            line-height: 1.85;
+            margin: 40px auto 0 auto;
+            position: relative;
+            font-weight: 500;
+        }
+
+        /* Book Title */
+        h2 {
+            font-family: 'Outfit', 'Laila', sans-serif;
+            font-size: 1.6em;
+            color: #881337;
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            border-bottom: 2px solid #881337;
+            padding-bottom: 15px;
+            display: inline-block;
+        }
+
+        /* Chapter Section & Anchor Scroll Adjustments */
+        section {
+            scroll-margin-top: 90px;
+            margin-top: 70px;
+            margin-bottom: 40px;
+            display: block;
+        }
+
+        section:empty {
+            margin: 0;
+            padding: 0;
+            height: 0;
+        }
+
+        /* Chapter Title Card Styling */
+        h3 {
+            font-family: 'Outfit', 'Laila', sans-serif;
+            font-size: 1.1em;
+            color: #b45309; /* Warm Amber */
+            background-color: #fdfaf2;
+            border: 1px solid #f6e3c5;
+            border-radius: 14px;
+            padding: 10px 24px;
+            display: inline-block;
+            margin: 0;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(180, 83, 9, 0.03);
+        }
+
+        /* Vyakhya block styling */
+        .vyakhya {
+            font-size: 0.85em;
+            color: #1c1917;
+            background-color: #fafaf9;
+            padding: 24px 30px;
+            border-left: 4px solid #881337;
+            margin: 25px auto;
+            border-radius: 4px 12px 12px 4px;
+            text-align: justify;
+            max-width: 800px;
+            line-height: 1.7;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.01);
+            font-family: 'Noto Serif Gujarati', serif;
+            font-weight: 500;
+        }
+
+        /* Responsive adaptations */
+        @media (max-width: 1280px) {
+            body {
+                padding-top: 90px;
+            }
+            .back-dashboard-btn {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+            }
+            .toc-toggle-btn {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                left: auto;
+            }
+            .toc-dropdown {
+                position: absolute;
+                top: 75px;
+                right: 20px;
+                left: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 40px 20px;
+                font-size: 1.25em;
+                border-radius: 16px;
+            }
+            h2 {
+                font-size: 1.8em;
+            }
+            h3 {
+                font-size: 1.2em;
+            }
+            .vyakhya {
+                padding: 16px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="../index.html" class="back-dashboard-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+      </svg>
+      મુખ્ય પૃષ્ઠ / Home
+    </a>
+    <div class="content"><h2>શ્રીયમુનાષ્ટકમ્</h2>
+
+[1]
+બ્રજાધિરાજ - નન્દનામ્બુદાભ ગાત્ર ચંદના-
+નુલેપ ગંધ વાહિનીં ભવાબ્ધિ બીજ દાહિનીમ્ ।
+જગત્ત્રયે યશસ્વિનીં લસત્સુધા પયસ્વિનીં-
+ભજે કલિન્દ નન્દિનીં દુરંત મોહ ભંજનીમ્ ॥1॥
+
+<div class="vyakhya">વ્યાખ્યા - જો નવીન મેઘ કે સમાન કાન્તિ વાલે બ્રજરાજ-નન્દન શ્રીકૃષ્ણ કે શરીર મેં અનુલેપિત ચન્દન ગંધ કા વહન કરતી હૈં, જો આવાગમન રૂપ ભવસાગર કે બીજ કો જલા દેતી હૈં, જિનકા સુયશ તીનોં લોકોં મેં વિખ્યાત હૈ, જિનકા જલ અમૃત કે સમાન ઉજ્જ્વલ હૈ એવં જો દુરંત મોહ (જિસકા અન્તિમ પરિણામ બડ઼ા કષ્ટમય હૈ) કો નષ્ટ કરને વાલી હૈં, મૈં ઉન કલિન્દનન્દિની શ્રીયમુનાજી કા ભજન કરતા હૂઁ ।</div>
+
+[2]
+રસૈકસીમ રાધિકા પદાબ્જભક્તિ સાધિકાં
+તદંગ-રાગ પિંજર પ્રભાતિ પુંજ મંજુલામ્ ।
+સ્વરોચિષાતિ શોભિતાં કૃતાં જનાધિગંજનાં-
+ભજે કલિન્દ નન્દિનીં દુરંત મોહ ભંજનીમ્ ॥2॥
+
+<div class="vyakhya">વ્યાખ્યા - જો રસ કી એકમાત્ર સીમા શ્રીરાધિકાજી કે ચરણ-કમલ કી ભક્તિ કો પ્રાપ્ત કરાને વાલી હૈં ઔર ઉન્હીં શ્રીરાધિકાજી કે અંગ રાગ કા વહન કરને કે કારણ જો અત્યન્ત મંજુલ પ્રકાશ સે યુક્ત હૈં, જો સ્વયં અપની પ્રભા સે અત્યન્ત શોભિત હૈં, જો અપને જનોં કે પૂર્વ-કૃત પાપોં કો સમૂલ નષ્ટ કરને મેં બહુત હી કુશલ હૈં એવં જો દુરન્ત મોહ કો નષ્ટ કરને વાલી હૈં, મૈં ઉન કલિન્દનન્દિની શ્રીયમુનાજી કા ભજન કરતા હૂઁ ।</div>
+
+[3]
+બ્રજેન્દ્ર સૂનુ રાધિકા હૃદિ પ્રપૂર્યમાણયો-
+ર્મહા રસાબ્ધિ પૂરયો રિવાતિ તીવ્ર વેગતઃ ।
+બહિઃ સમુચ્છલન્નવ પ્રવાહ રૂપિણીમહં-
+ભજે કલિન્દ નન્દિનીં દુરંત મોહ ભંજનીમ્ ॥3॥
+
+<div class="vyakhya">વ્યાખ્યા - શ્રીનન્દનન્દન ઔર શ્રીરાધિકા કે હૃદય મેં પૂર્ણ રૂપ સે ભરા હુઆ મહા રસ-સાગર કા ઉલ્લાસ હી માનોં તીવ્ર વેગ સે બાહર ઉછલ કર જિનકા નિત્ય નવીન પ્રવાહ બન ગયા હૈ એવં જો દુરન્ત મોહ કો નષ્ટ કરને વાલી હૈં, મૈં ઉન કલિન્દનન્દિની શ્રીયમુનાજી કા ભજન કરતા હૂઁ ।</div>
+
+[4]
+વિચિત્ર રત્ન બદ્ધ સત્તટદ્વય શ્રિયોજ્જવલાં-
+વિચિત્ર હંસ સારસાદ્યનન્ત પક્ષિ સંકુલામ્ ।
+વિચિત્ર મીન મેખલાં કૃતાતિ દીન પાલિતાં-
+ભજે કલિન્દ નન્દિનીં દુરંત મોહ ભંજનીમ્ ॥4॥
+
+<div class="vyakhya">વ્યાખ્યા - જિનકે દોનોં તટ ઉજ્જ્વલ કાન્તિ ફૈલાને વાલે રત્નોં સે આબદ્ધ હૈં તથા વિચિત્ર પ્રકાર કે હંસ-સારસાદિક પંક્ષિ-સમૂહ સે પૂરિપૂર્ણ હૈં, જલ મેં બિહાર કરતી હુઈ વિચિત્ર-વિચિત્ર મછલિયાઁ હી માનોં જિનકી મેખલા (કરધની) કી શોભા કો પ્રાપ્ત હો રહી હૈં, જો અધમ સે અધમ દીનજનોં કા પાલન કરને વાલી હૈં એવં જો દુરન્ત મોહ કો નષ્ટ કરને વાલી હૈં, મૈં ઉન કલિન્દનન્દિની શ્રીયમુનાજી કા ભજન કરતા હૂઁ ।</div>
+
+[5]
+વહંતિકાં શ્રિયાં હરેર્મુદા કૃપા સ્વરૂપિણીં-
+વિશુદ્ધ ભક્તિમુજ્જ્વલાં પરે રસાત્મિકાં વિદુઃ ।
+સુધા શ્રુતિત્વલૌકિકીં પરેશ વર્ણ રૂપિણીં-
+ભજે કલિન્દ નન્દિનીં દુરંત મોહ ભંજનીમ્ ॥5॥
+
+<div class="vyakhya">વ્યાખ્યા - જો શ્રીહરિ કી શ્યામ કાંતિ કા મોદ પૂર્વક વહન કરતી હૈં, જો સાક્ષાત્ કૃપા સ્વરૂપિણી હૈં, જો પરમ રસમયી ઉજ્જ્વલ એવં વિશુદ્ધ ભક્તિ સ્વરૂપા હૈં, જો અમૃત કી અલૌકિક ધારા સ્વરૂપ હૈં, જિનકા વર્ણ પરમ પ્રભુ શ્રીકૃષ્ણ કે શ્યામ રંગ કે સમાન હૈ એવં જો દુરન્ત મોહ કો નષ્ટ કરને વાલી હૈં, મૈં ઉન કલિન્દનન્દિની શ્રીયમુનાજી કા ભજન કરતા હૂઁ ।</div>
+
+[6]
+સુરેન્દ્ર વૃન્દ વન્દિતાં રસાદધિષ્ઠિતે વને-
+સદોપલબ્ધ માધવાદ્ભુતૈક સદૃશોન્મદામ્ ।
+અતીવ વિહ્વલામિવ ચ્ચલત્તરંગ દોર્લતાં-
+ભજે કલિન્દ નન્દિનીં દુરંત મોહ ભંજનીમ્ ॥6॥
+
+<div class="vyakhya">વ્યાખ્યા - જો સુરેન્દ્રોં કે સમૂહોં દ્વારા વન્દિત હૈં, જો ઉન શ્રીમાધવ કે સમાન રસોન્મત્ત હૈં, જિન્હોંને રસભૂમિ શ્રીવૃન્દાવન મેં કિસી અદ્ભુત રસ કી પ્રાપ્તિ કી હૈ, જિનકી તરંગ રૂપી ભુજાયેં પ્રેમ વિહ્વલતા કે કારણ અત્યંત ચંચલ બની હુઈ હૈં એવં જો દુરંત મોહ કો નષ્ટ કરને વાલી હૈં, મૈં ઉન કલિન્દનન્દિની શ્રીયમુનાજી કા ભજન કરતા હૂઁ ।</div>
+
+[7]
+પ્રફુલ્લ પંકજાનનાં લસન્નવોત્પલેક્ષણાં-
+રથાંગનામ યુગ્મ કસ્તનીમુદાર હંસિકામ્ ।
+નિતંબ ચારુ રોધસાં હરેઃ પ્રિયાં રસોજ્જ્વલાં-
+ભજે કલિન્દ નન્દિનીં દુરંત મોહ ભંજનીમ્ ॥7॥
+
+<div class="vyakhya">વ્યાખ્યા - શ્રીયમુનાજી મેં ખિલે હુએ લાલ કમલ હી માનોં ઉનકા મુખ હૈ ઔર શોભાશાલી નીલકમલ હી ઉનકે નેત્ર હૈં, ચકવે કી જોડ઼ી હી ઉનકે સ્તન હૈં, જિનમેં અનેક હંસ ક્રીડ઼ા કર રહે હૈં, જિનકે દોનોં તટ હી ઉનકે નિતમ્બ હૈં, જો શ્રીહરિ કી પ્રિયા શ્રીરાધા કે રસ સે ઉજ્જ્વલ બની હુઈ હૈં એવં જો દુરન્ત મોહ કો નષ્ટ કરને વાલી હૈં, મૈં ઉન કલિન્દનન્દિની શ્રીયમુનાજી કા ભજન કરતા હૂઁ ।</div>
+
+[8]
+સમસ્ત વેદ મસ્તકૈરગમ્ય વૈભવાં સદા-
+મહા મુનીન્દ્ર નારદાદિભિઃ સદૈવ ભાવિતામ્ ।
+અતુલ્ય પામરૈરપિ શ્રિતાં પુમર્થ શારદાં-
+ભજે કલિન્દ નન્દિનીં દુરંત મોહ ભંજનીમ્ ॥8॥
+
+<div class="vyakhya">વ્યાખ્યા - જિનકા વૈભવ સમસ્ત ઉપનિષદોં કે લિએ અગમ્ય હૈ, નારદાદિક મહા મુનીન્દ્ર જિનકા ધ્યાન કરતે હૈં, આપકા આશ્રય લેને વાલે સર્વશ્રેષ્ટ પામરોં કો ભી જો પ્રેમ પ્રદાન કરતી હૈં એવં જો દુરન્ત મોહ કો નષ્ટ કરને વાલી હૈં, મૈં ઉન કલિન્દનન્દિની શ્રીયમુનાજી કા ભજન કરતા હૂઁ ।</div>
+
+[9]
+ય એતદષ્ટકં બુધ સ્ત્રિકાલ માદૃતઃ પઠેત્-
+કલિન્દ નન્દિનીં હૃદા વિચિંત્ય વિશ્વ વંદિતામ્ ।
+ઇહૈવ રાધિકાપતેઃ પદાબ્જ ભક્તિ મુત્તમા-
+મવાપ્ય સ ધ્રુવં ભવેત્પરત્ર તત્પ્રિયાનુગઃ ॥9॥
+
+<div class="vyakhya">વ્યાખ્યા - જો વિવેકીજન વિશ્વવન્દિત શ્રીયમુનાજી કા હૃદય મેં ધ્યાન કરતે હુએ ઇસ અષ્ટક કા તીનોં કાલોં મેં અર્થાત્ પ્રાતઃ, મધ્યાહ્ન તથા સાયંકાલ આદરપૂર્વક પાઠ કરેંગે, વે રાધિકાપતિ શ્રીકૃષ્ણ કી પ્રેમલક્ષણા ભક્તિ કો ઇસી લોક મેં પ્રાપ્ત કરેંગે ઔર શરીર ત્યાગ કે પશ્ચાત્ નિશ્ચય હી સહચરિ ભાવ સે શ્રીરાધિકા કે અનુગત હો જાયેંગે ।</div>
+
+***
+
+જયતિ જમુના વિમલ - વર-વારિ ।
+શીતલ તરલ તરંગિની, રત્ન-બદ્ધ વિવિ તટ વિરાજત ।
+પ્રફુલિત વિવિધ સરોજગણ, ચક્રવાદિ કલ હંસ રાજત ॥
+કૂલ વિશદ, વનદ્રુમ સઘન, લતા - ભવન અતિરમ્ય ।
+નિત્ય-કેલિ હરિવંશ હિત, સુ બ્રહ્માદિકન અગમ્ય ॥
+    </div>
+</body>
+
+</html>

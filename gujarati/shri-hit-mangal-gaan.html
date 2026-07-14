@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>શ્રીહિત મંગલ ગાન</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Laila:wght@400;500;600;700&family=Noto+Serif+Gujarati:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'LailaSemiBold';
+            src: url('../assets/fonts/Laila-SemiBold.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            background-color: #f7f6f0;
+            background: linear-gradient(135deg, #fdfdfb 0%, #f3f2ec 100%);
+            font-family: 'Noto Serif Gujarati', serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px 80px 20px;
+            box-sizing: border-box;
+            color: #1c1917;
+        }
+
+        /* Fixed back navigation button */
+        .back-dashboard-btn {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            background-color: #ffffff;
+            border: 1px solid #e7e5e4;
+            border-radius: 30px;
+            padding: 10px 22px;
+            color: #881337;
+            text-decoration: none;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.25s ease;
+            z-index: 1000;
+        }
+
+        .back-dashboard-btn:hover {
+            background-color: #881337;
+            color: #ffffff;
+            border-color: #881337;
+            box-shadow: 0 8px 20px rgba(136, 19, 55, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Chapters Toggle Button */
+        .toc-toggle-btn { display: none !important; }
+        .toc-toggle-btn {
+            position: fixed;
+            top: 80px;
+            left: 25px;
+            background-color: #ffffff;
+            border: 1px solid #e7e5e4;
+            border-radius: 30px;
+            padding: 10px 22px;
+            color: #b45309; /* Warm Amber */
+            text-decoration: none;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            z-index: 1000;
+        }
+
+        .toc-toggle-btn:hover {
+            background-color: #b45309;
+            color: #ffffff;
+            border-color: #b45309;
+            box-shadow: 0 8px 20px rgba(180, 83, 9, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .toc-dropdown {
+            position: fixed;
+            top: 135px;
+            left: 25px;
+            width: max-content;
+            max-width: 300px;
+            max-height: 380px;
+            overflow-y: auto;
+            background-color: #ffffff;
+            border: 1px solid #e7e5e4;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            padding: 10px;
+            box-sizing: border-box;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .toc-dropdown.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .toc-dropdown::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .toc-dropdown::-webkit-scrollbar-thumb {
+            background-color: #e7e5e4;
+            border-radius: 3px;
+        }
+
+        .toc-dropdown a {
+            font-family: 'Outfit', 'Laila', sans-serif;
+            font-size: 1.05em;
+            color: #44403c;
+            text-decoration: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+
+        .toc-dropdown a:hover {
+            background-color: #faf9f6;
+            color: #881337;
+            transform: translateX(4px);
+        }
+
+        /* Reading Card Container */
+        .content {
+            background-color: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
+            border: 1px solid #e7e5e4;
+            max-width: 900px;
+            width: 100%;
+            padding: 60px 50px;
+            box-sizing: border-box;
+            text-align: center;
+            white-space: pre-wrap;
+            font-size: 1.8em;
+            line-height: 1.85;
+            margin: 40px auto 0 auto;
+            position: relative;
+            font-weight: 500;
+        }
+
+        /* Book Title */
+        h2 {
+            font-family: 'Outfit', 'Laila', sans-serif;
+            font-size: 1.6em;
+            color: #881337;
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            border-bottom: 2px solid #881337;
+            padding-bottom: 15px;
+            display: inline-block;
+        }
+
+        /* Chapter Section & Anchor Scroll Adjustments */
+        section {
+            scroll-margin-top: 90px;
+            margin-top: 70px;
+            margin-bottom: 40px;
+            display: block;
+        }
+
+        section:empty {
+            margin: 0;
+            padding: 0;
+            height: 0;
+        }
+
+        /* Chapter Title Card Styling */
+        h3 {
+            font-family: 'Outfit', 'Laila', sans-serif;
+            font-size: 1.1em;
+            color: #b45309; /* Warm Amber */
+            background-color: #fdfaf2;
+            border: 1px solid #f6e3c5;
+            border-radius: 14px;
+            padding: 10px 24px;
+            display: inline-block;
+            margin: 0;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(180, 83, 9, 0.03);
+        }
+
+        /* Vyakhya block styling */
+        .vyakhya {
+            font-size: 0.85em;
+            color: #1c1917;
+            background-color: #fafaf9;
+            padding: 24px 30px;
+            border-left: 4px solid #881337;
+            margin: 25px auto;
+            border-radius: 4px 12px 12px 4px;
+            text-align: justify;
+            max-width: 800px;
+            line-height: 1.7;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.01);
+            font-family: 'Noto Serif Gujarati', serif;
+            font-weight: 500;
+        }
+
+        /* Responsive adaptations */
+        @media (max-width: 1280px) {
+            body {
+                padding-top: 90px;
+            }
+            .back-dashboard-btn {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+            }
+            .toc-toggle-btn {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                left: auto;
+            }
+            .toc-dropdown {
+                position: absolute;
+                top: 75px;
+                right: 20px;
+                left: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 40px 20px;
+                font-size: 1.25em;
+                border-radius: 16px;
+            }
+            h2 {
+                font-size: 1.8em;
+            }
+            h3 {
+                font-size: 1.2em;
+            }
+            .vyakhya {
+                padding: 16px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-dashboard-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+      </svg>
+      મુખ્ય પૃષ્ઠ / Home
+    </a>
+    <div class="content"><h2>શ્રીહિત મંગલ ગાન</h2>
+
+જૈ જૈ શ્રીહરિવંશ વ્યાસ-કુલ- મંડના ।
+રસિક અનન્યનિ મુખ્ય-ગુરૂ જન-ભય ખંડના ॥
+શ્રીવૃન્દાવન બાસ રાસ-રસ ભૂમિ જહાં ।
+ક્રીડત શ્યામા શ્યામ પુલિન મંજુલ તહાં ॥
+પુલિન મંજુલ પરમ પાવન ત્રિવિધ તહાં મારુત બહૈ ।
+કુંજ ભવન વિચિત્ર શોભા મદન નિત સેવત રહૈ ॥
+તહાં સંતત વ્યાસ નન્દન રહત કલુષ વિહંડના ।
+જૈ જૈ શ્રીહરિવંશ વ્યાસ-કુલ- મંડના ॥૧॥
+
+જૈ જૈ શ્રીહરિવંશ ચન્દ્ર ઉદ્દિત સદા ।
+દ્વિજ-કુલ- કુમુદ પ્રકાશ વિપુલ સુખ સમ્પદા ॥
+પર ઉપકાર વિચાર સુમતિ જગ વિસ્તરી ।
+કરુણા-સિન્ધુ કૃપાલુ કાલ ભય સબ હરી ॥
+હરી સબ કલિ કાલ કી ભય કૃપા રૂપ જૂ વપુ ધરયૌ ।
+કરત જે અનસહન નિન્દક તિનહુઁ પૈ અનુગ્રહ કરયૌ ॥
+નિરભિમાન નિર્વૈર નિરુપમ નિષ્કલંક જુ સર્વદા ।
+જૈ જૈ શ્રીહરિવંશ ચન્દ્ર ઉદ્દિત સદા ॥૨॥
+
+જૈ જૈ શ્રીહરિવંશ પ્રસંશિત સબ દુની ।
+સારાસાર વિવેકિત કોવિદ બહુ ગુની ॥
+ગુપ્ત રીતિ આચરણ પ્રગટ સબ જગ દિયે ।
+જ્ઞાન-ધર્મ-વ્રત-કર્મ ભક્તિ-કિંકર કિયે ॥
+ભક્તિ હિત જે શરણ આયે દ્વન્દ-દોષ જુ સબ ઘટે ।
+કમલ કર જિન અભય દીને કર્મ-બન્ધન સબ કટે ॥
+પરમ સુખદ સુશીલ સુન્દર પાહિ સ્વામિન મમ ધની ।
+જૈ જૈ શ્રીહરિવંશ પ્રસંશિત સબ દુની ॥૩॥
+
+જૈ જૈ શ્રીહરિવંશ નામ ગુણ ગાઇ હૈ ।
+પ્રેમ-લક્ષણા ભક્તિ સુદૃઢ કરિ પાઇ હૈ ।
+અરુ બાઢે રસ-રીતિ પ્રીતિ ચિત ના ટરૈ ।
+જીતિ વિષમ સંસાર કીરતિ જગ વિસ્તરૈ ॥
+વિસ્તરૈ સબ જગ વિમલ કીરતિ સાધુ-સંગતિ ના ટરૈ ।
+વાસ વૃન્દાવિપિન પાવૈ શ્રીરાધિકા જુ કૃપા કરેં ॥
+ચતુર જુગલ-કિશોર સેવક દિન પ્રસાદહિં પાઇ હૈ ।
+જૈ જૈ શ્રીહરિવંશ નામ-ગુણ ગાઇ હૈ ॥૪॥
+
+મધુરિતુ માધવ માસ સુહાઇ ।
+ભાગ પ્રકાશ વ્યાસનન્દન મુખ,
+ફૂલ્યૌ કમલ અમલ છબિ છાઇ ॥
+શ્રવત મધુર મકરન્દ સુયશ નિજુ,
+કુંજ કેલિ સૌરભ સરસાઇ ।
+સેવત રસિક અનન્ય ભ્રમર મન,
+જૈશ્રીકૃષ્ણદાસ સુખસાર સદાઇ ॥
+
+    </div>
+</body>
+</html>

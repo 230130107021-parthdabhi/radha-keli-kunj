@@ -1,0 +1,810 @@
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>हमारे रसिक संत एवं भक्तजन</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Laila:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f7f6f0;
+            background: linear-gradient(135deg, #fdfdfb 0%, #f3f2ec 100%);
+            font-family: 'Laila', 'LailaSemiBold', serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 80px 20px 80px 20px;
+            box-sizing: border-box;
+            color: #1c1917;
+        }
+
+        /* Fixed back navigation button */
+        .back-dashboard-btn {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            background-color: #ffffff;
+            border: 1px solid #e7e5e4;
+            border-radius: 30px;
+            padding: 10px 22px;
+            color: #881337;
+            text-decoration: none;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.25s ease;
+            z-index: 1000;
+        }
+
+        .back-dashboard-btn:hover {
+            background-color: #881337;
+            color: #ffffff;
+            border-color: #881337;
+            box-shadow: 0 8px 20px rgba(136, 19, 55, 0.15);
+            transform: translateY(-2px);
+        }
+
+        h2 {
+            font-family: 'Outfit', 'Laila', sans-serif;
+            font-size: 2.2em;
+            color: #881337;
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            border-bottom: 2px solid #881337;
+            padding-bottom: 15px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .slider-container {
+            position: relative;
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .slider-wrap {
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 15px 45px rgba(136, 19, 55, 0.04), 0 3px 10px rgba(0, 0, 0, 0.01);
+            border: 1px solid #f2f0ea;
+            padding: 24px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .content {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .slider-track {
+            display: flex;
+            width: 100%;
+            transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .card {
+            text-align: center;
+            width: 100%;
+            flex: 0 0 100%;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .image-container {
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            background-color: #faf9f6;
+            aspect-ratio: 4 / 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .card img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            display: block;
+            border-radius: 14px;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card:hover img {
+            transform: scale(1.04);
+        }
+
+        /* Slide Counter Badge */
+        .slide-counter {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #881337;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85em;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            z-index: 10;
+        }
+
+        /* Badge for "रसिक संत" */
+        .saint-badge {
+            display: inline-block;
+            background-color: #fdf2f8;
+            color: #db2777;
+            font-family: 'Outfit', 'Laila', sans-serif;
+            font-size: 0.75em;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 12px;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card p {
+            margin: 12px 0 0 0;
+            font-size: 1.4em;
+            font-weight: 600;
+            line-height: 1.45;
+            color: #881337;
+            font-family: 'Laila', serif;
+            white-space: normal;
+            padding: 0 10px;
+        }
+
+        /* Navigation Buttons */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            border: 1px solid #e7e5e4;
+            color: #881337;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+        }
+
+        .nav-btn:hover {
+            background-color: #881337;
+            color: #ffffff;
+            border-color: #881337;
+            box-shadow: 0 8px 25px rgba(136, 19, 55, 0.2);
+        }
+
+        .nav-btn:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .nav-btn.prev-btn {
+            left: -65px;
+        }
+
+        .nav-btn.next-btn {
+            right: -65px;
+        }
+
+        /* Responsive adaptations */
+        @media (max-width: 1280px) {
+            body {
+                padding-top: 100px;
+            }
+            .back-dashboard-btn {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+            }
+        }
+
+        @media (max-width: 680px) {
+            body {
+                padding-top: 90px;
+            }
+            .nav-btn {
+                background-color: rgba(255, 255, 255, 0.95);
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                width: 44px;
+                height: 44px;
+            }
+            .nav-btn.prev-btn {
+                left: 15px;
+            }
+            .nav-btn.next-btn {
+                right: 15px;
+            }
+            .slider-container {
+                max-width: 92%;
+            }
+            .slider-wrap {
+                padding: 16px;
+                border-radius: 24px;
+            }
+            h2 {
+                font-size: 1.8em;
+            }
+            .card p {
+                font-size: 1.2em;
+            }
+        }
+</style>
+</head>
+
+<body>
+    <a href="../index.html" class="back-dashboard-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+      </svg>
+      मुख्य पृष्ठ / Home
+    </a>
+    <h2>हमारे रसिक संत एवं भक्तजन</h2>
+    <div class="slider-container">
+        <!-- Navigation Buttons -->
+        <button class="nav-btn prev-btn" id="prevBtn" aria-label="Previous slide">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 20px; height: 20px;">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+        </button>
+        <button class="nav-btn next-btn" id="nextBtn" aria-label="Next slide">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 20px; height: 20px;">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+        </button>
+
+        <div class="slider-wrap">
+            <div class="content" id="saintSlider">
+        <div class="slider-track" id="sliderTrack">
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/1.jpg" alt="सम्प्रदायाचार्य वंशी अवतार श्री हित हरिवंश चन्द्र महाप्रभु जी" />
+            </div>
+            <p>सम्प्रदायाचार्य वंशी अवतार<br />श्री हित हरिवंश चन्द्र महाप्रभु जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/2.jpg" alt="श्री स्वामी हरिदास जू महाराज" />
+            </div>
+            <p>श्री स्वामी हरिदास जू महाराज</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/3.jpg" alt="श्री हरिराम व्यास जी" />
+            </div>
+            <p>श्री हरिराम व्यास जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/4.jpg" alt="गो. श्री वनचन्द्र महाप्रभु जी " />
+            </div>
+            <p>गो. श्री वनचन्द्र महाप्रभु जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/5.jpg" alt="गो. श्रीहित श्रीकृष्णचन्द्र महाप्रभु जी महाराज " />
+            </div>
+            <p>गो. श्रीहित श्रीकृष्णचन्द्र महाप्रभु जी महाराज</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/6.jpg" alt="गो. श्रीहित श्रीगोपीनाथ महाप्रभु जी महाराज " />
+            </div>
+            <p>गो. श्रीहित श्रीगोपीनाथ महाप्रभु जी महाराज</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/7.jpg" alt="गो. श्रीहित श्रीमोहनचन्द्र महाप्रभु जी महाराज " />
+            </div>
+            <p>गो. श्रीहित श्रीमोहनचन्द्र महाप्रभु जी महाराज</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/8.jpg" alt="श्री हित सेवक जी महाराज" />
+            </div>
+            <p>श्री हित सेवक जी महाराज</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/9.jpg" alt="श्री नेही नागरी दास जी" />
+            </div>
+            <p>श्री नेही नागरी दास जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/10.jpg" alt="श्री हित ध्रुवदास जी" />
+            </div>
+            <p>श्री हित ध्रुवदास जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/11.jpg" alt="चाचा श्रीहित वृंदावन दास जी " />
+            </div>
+            <p>चाचा श्रीहित वृंदावन दास जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/12.jpg" alt=" रसिक सन्त श्रीहित प्रेमदास जी" />
+            </div>
+            <p>रसिक सन्त श्रीहित प्रेमदास जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/13.jpg" alt="श्री हित स्वामिनी शरण जी " />
+            </div>
+            <p>श्री हित स्वामिनी शरण जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/14.jpg" alt="गो. श्री हित रूपलालजी " />
+            </div>
+            <p>गो. श्री हित रूपलालजी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/15.jpg" alt="श्री विट्ठल विपुल देव जी महाराज " />
+            </div>
+            <p>श्री विट्ठल विपुल देव जी महाराज</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/16.jpg" alt="श्री विहारिन देव जू" />
+            </div>
+            <p>श्री विहारिन देव जू</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/17.jpg" alt="श्री नागरी देव जू " />
+            </div>
+            <p>श्री नागरी देव जू</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/18.jpg" alt="श्री सरस देव जी" />
+            </div>
+            <p>श्री सरस देव जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/19.jpg" alt="श्री नरहरि देव जू" />
+            </div>
+            <p>श्री नरहरि देव जू</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/20.jpg" alt="श्री रसिक देव जू " />
+            </div>
+            <p>श्री रसिक देव जू</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/21.jpg" alt="श्री ललित किशोरी देव जी" />
+            </div>
+            <p>श्री ललित किशोरी देव जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/22.jpg" alt="श्री ललित मोहिनी देव जू" />
+            </div>
+            <p>श्री ललित मोहिनी देव जू</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/23.jpg" alt="श्री भगवत रसिक देव जू " />
+            </div>
+            <p>श्री भगवत रसिक देव जू</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/24.jpg" alt="श्री चैतन्य महाप्रभु जी" />
+            </div>
+            <p>श्री चैतन्य महाप्रभु जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/25.jpg" alt="श्री नित्यानंद महाप्रभु जी" />
+            </div>
+            <p>श्री नित्यानंद महाप्रभु जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/26.jpg" alt="श्री रूप गोस्वामी जी" />
+            </div>
+            <p>श्री रूप गोस्वामी जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/27.jpg" alt="श्री रघुनाथ भट्ट गोस्वामी जी" />
+            </div>
+            <p>श्री रघुनाथ भट्ट गोस्वामी जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/28.jpg" alt="श्री सनातन गोस्वामी जी " />
+            </div>
+            <p>श्री सनातन गोस्वामी जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/29.jpg" alt="श्री रघुनाथ दास गोस्वामी जी" />
+            </div>
+            <p>श्री रघुनाथ दास गोस्वामी जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/30.jpg" alt="श्री जीव गोस्वामी जी" />
+            </div>
+            <p>श्री जीव गोस्वामी जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/31.jpg" alt="श्री गोपाल भट्ट गोस्वामी जी" />
+            </div>
+            <p>श्री गोपाल भट्ट गोस्वामी जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/32.jpg" alt="पुष्टि मार्ग संस्थापक महाप्रभु वल्लभाचार्य जी " />
+            </div>
+            <p>पुष्टि मार्ग संस्थापक महाप्रभु वल्लभाचार्य जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/33.jpg" alt="श्री विट्ठलनाथ जी (गुसाईंजी) " />
+            </div>
+            <p>श्री विट्ठलनाथ जी (गुसाईंजी)</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/34.jpg" alt="श्री कुंभन दास जी" />
+            </div>
+            <p>श्री कुंभन दास जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/35.jpg" alt="श्री सूरदास जी" />
+            </div>
+            <p>श्री सूरदास जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/36.jpg" alt="श्री कृष्णदास जी" />
+            </div>
+            <p>श्री कृष्णदास जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/37.jpg" alt="श्री परमानंद दास जी" />
+            </div>
+            <p>श्री परमानंद दास जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/38.jpg" alt="श्री गोविन्द स्वामी जी" />
+            </div>
+            <p>श्री गोविन्द स्वामी जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/39.jpg" alt="श्री छीत स्वामी जी" />
+            </div>
+            <p>श्री छीत स्वामी जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/40.jpg" alt="श्री चतुर्भुज दास जी" />
+            </div>
+            <p>श्री चतुर्भुज दास जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/41.jpg" alt="श्री नंददास जी" />
+            </div>
+            <p>श्री नंददास जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/42.jpg" alt="निम्बार्क सम्प्रदाय संस्थापक श्री निम्बार्काचार्य जी" />
+            </div>
+            <p>निम्बार्क सम्प्रदाय संस्थापक श्री निम्बार्काचार्य जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/43.jpg" alt="श्री भट्ट देवाचार्य जी" />
+            </div>
+            <p>श्री भट्ट देवाचार्य जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/44.jpg" alt="श्री हरिव्यास देवाचार्य जी" />
+            </div>
+            <p>श्री हरिव्यास देवाचार्य जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/45.jpg" alt="श्री शंकराचार्य जी" />
+            </div>
+            <p>श्री शंकराचार्य जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/46.jpg" alt="श्री रामानन्दाचार्य जी" />
+            </div>
+            <p>श्री रामानन्दाचार्य जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/47.jpg" alt="श्री रामानुजाचार्य जी" />
+            </div>
+            <p>श्री रामानुजाचार्य जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/48.jpg" alt="श्री मध्वाचार्य जी" />
+            </div>
+            <p>श्री मध्वाचार्य जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/49.jpg" alt="श्री जयदेव गोस्वामी जी " />
+            </div>
+            <p>श्री जयदेव गोस्वामी जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/50.jpg" alt="भक्त करमैती बाई जी" />
+            </div>
+            <p>भक्त करमैती बाई जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/51.jpg" alt="भक्तिमती मीरा बाई जी" />
+            </div>
+            <p>भक्तिमती मीरा बाई जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/52.jpg" alt="श्री नाभादास जी" />
+            </div>
+            <p>श्री नाभादास जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/53.jpg" alt="श्री नरसी मेहता जी" />
+            </div>
+            <p>श्री नरसी मेहता जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/54.jpg" alt="भक्त सखुबाई जी" />
+            </div>
+            <p>भक्त सखुबाई जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/55.jpg" alt="संत कबीर दास जी" />
+            </div>
+            <p>संत कबीर दास जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/56.jpg" alt="श्री नारायण स्वामी जी" />
+            </div>
+            <p>श्री नारायण स्वामी जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/57.jpg" alt="भक्त रानी रत्नावती जी" />
+            </div>
+            <p>भक्त रानी रत्नावती जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/58.jpg" alt="श्री वंशी अली जी" />
+            </div>
+            <p>श्री वंशी अली जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/59.jpg" alt="भक्त रसखान जी" />
+            </div>
+            <p>भक्त रसखान जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/60.jpg" alt="संत जनाबाई जी" />
+            </div>
+            <p>संत जनाबाई जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/61.jpg" alt="गो. श्री तुलसी दास जी" />
+            </div>
+            <p>गो. श्री तुलसी दास जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/62.jpg" alt="श्री नरोत्तम दास जी" />
+            </div>
+            <p>श्री नरोत्तम दास जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/63.jpg" alt="संत आनंदमयी माँ" />
+            </div>
+            <p>संत आनंदमयी माँ</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/64.jpg" alt="श्री तुकाराम जी" />
+            </div>
+            <p>श्री तुकाराम जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/65.jpg" alt="श्री नामदेव जी महाराज" />
+            </div>
+            <p>श्री नामदेव जी महाराज</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/66.jpg" alt="संत शारदा माँ " />
+            </div>
+            <p>संत शारदा माँ</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/67.jpg" alt="श्री श्रीधर दास बाबा जी" />
+            </div>
+            <p>श्री श्रीधर दास बाबा जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/68.jpg" alt="श्री कवि बिहारी जी" />
+            </div>
+            <p>श्री कवि बिहारी जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/69.jpg" alt="संत मुक्ताबाई जी " />
+            </div>
+            <p>संत मुक्ताबाई जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/70.jpg" alt="श्री रविदास जी महाराज " />
+            </div>
+            <p>श्री रविदास जी महाराज</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/71.jpg" alt="संत श्री ज्ञानेश्वर जी महाराज" />
+            </div>
+            <p>संत श्री ज्ञानेश्वर जी महाराज</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/72.jpg" alt="संत श्री एकनाथ जी महाराज" />
+            </div>
+            <p>संत श्री एकनाथ जी महाराज</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/73.jpg" alt="बालभक्त ओमप्रकाश जी" />
+            </div>
+            <p>बालभक्त ओमप्रकाश जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/74.jpg" alt="परम पूज्य भाईजी श्रीहनुमानप्रसादजी पोद्दार जी" />
+            </div>
+            <p>परम पूज्य भाईजी श्रीहनुमानप्रसादजी पोद्दार जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/75.jpg" alt="श्री पूर्णानंद तीर्थ जी महाराज (श्री उड़िया बाबा जी) " />
+            </div>
+            <p>श्री पूर्णानंद तीर्थ जी महाराज<br />(श्री उड़िया बाबा जी)</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/76.jpg" alt="श्री राधा बाबा जी" />
+            </div>
+            <p>श्री राधा बाबा जी</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/77.jpg" alt="पूज्य पण्डित श्रीगयाप्रसादजी महाराज" />
+            </div>
+            <p>पूज्य पण्डित श्रीगयाप्रसादजी महाराज</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/78.jpg" alt="पूज्य श्री हित गौरांगी शरण जी महाराज (पूज्य महाराज जी के गुरुदेव)" />
+            </div>
+            <p>पूज्य श्री हित गौरांगी शरण जी महाराज<br />(पूज्य महाराज जी के गुरुदेव)</p>
+        </div>
+        <div class="card">
+            <div class="image-container">
+                <img src="../assets/saints-photo/79.jpg" alt="पूज्य श्री हित प्रेमानंद गोविंद शरण जी महाराज (पूज्य महाराज जी)" />
+            </div>
+            <p>पूज्य श्री हित प्रेमानंद गोविंद शरण जी महाराज<br />(पूज्य महाराज जी)</p>
+        </div>
+                    </div>
+    </div></div></div><script>
+      (function () {
+        const cards = Array.from(document.querySelectorAll("#saintSlider .card"));
+        const track = document.getElementById("sliderTrack");
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        let current = 0;
+
+        function showSlide(index) {
+          if (!cards.length) return;
+          current = (index + cards.length) % cards.length;
+          
+          // Update track transform for smooth horizontal slide
+          track.style.transform = `translateX(-${current * 100}%)`;
+          
+          cards.forEach((card, i) => card.classList.toggle("active", i === current));
+        }
+
+        prevBtn.addEventListener("click", () => showSlide(current - 1));
+        nextBtn.addEventListener("click", () => showSlide(current + 1));
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "ArrowLeft") showSlide(current - 1);
+          if (e.key === "ArrowRight") showSlide(current + 1);
+        });
+
+        let startX = 0;
+        const slider = document.getElementById("saintSlider");
+        slider.addEventListener("touchstart", function (e) {
+          startX = e.changedTouches[0].clientX;
+        }, { passive: true });
+        slider.addEventListener("touchend", function (e) {
+          const endX = e.changedTouches[0].clientX;
+          const dx = endX - startX;
+          if (Math.abs(dx) > 40) {
+            if (dx < 0) showSlide(current + 1);
+            else showSlide(current - 1);
+          }
+        }, { passive: true });
+
+        showSlide(0);
+      })();
+    </script>
+</body>
+
+</html>
