@@ -486,11 +486,15 @@
     async function loadBookData() {
         currentLang = localStorage.getItem('preferredLanguage') || 'hi';
 
+        const pathname = window.location.pathname;
+        const pathParts = pathname.split('/');
+        const parentDir = pathParts[pathParts.length - 2];
         const isGroupDir = filename !== 'hamare-rasik-sant-evam-bhaktajan' && filename !== 'index';
         const basePrefix = isGroupDir ? '../' : '';
+        const fetchDir = isGroupDir ? `${parentDir}/` : '';
 
         try {
-            const response = await fetch(`${basePrefix}assets/data/${currentLang}/${filename}.json`);
+            const response = await fetch(`${basePrefix}assets/data/${currentLang}/${fetchDir}${filename}.json`);
             if (!response.ok) {
                 throw new Error(`Failed to load content data: ${response.statusText}`);
             }
