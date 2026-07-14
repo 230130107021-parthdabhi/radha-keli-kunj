@@ -13,31 +13,7 @@
         return;
     }
 
-    let plyrInstances = [];
-    function initPlyrPlayers() {
-        // Destroy existing players to prevent memory leaks
-        plyrInstances.forEach(p => {
-            try { p.destroy(); } catch (e) {}
-        });
-        plyrInstances = [];
-        
-        const embeds = document.querySelectorAll('.plyr__video-embed');
-        if (embeds.length > 0) {
-            if (typeof Plyr !== 'undefined') {
-                embeds.forEach(el => {
-                    const player = new Plyr(el, {
-                        controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'settings', 'fullscreen'],
-                        settings: ['speed'],
-                        ratio: '16:9',
-                        youtube: { noCookie: true, rel: 0, showinfo: 0, modestbranding: 1 }
-                    });
-                    plyrInstances.push(player);
-                });
-            } else {
-                console.warn('Plyr library is not loaded');
-            }
-        }
-    }
+
 
     // 2. Add verse navigation styles dynamically to the page head
     const styleEl = document.createElement('style');
@@ -213,7 +189,7 @@
             let html = '';
             verse.content.forEach((item, idx) => {
                 if (item.type === 'video') {
-                    html += `<div class="video-container"><div class="plyr__video-embed"><iframe src="https://www.youtube.com/embed/${item.videoId}?origin=${encodeURIComponent(window.location.origin)}&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1" allowfullscreen allowtransparency allow="autoplay"></iframe></div></div>`;
+                    html += `<div class="video-container"><iframe src="https://www.youtube.com/embed/${item.videoId}" allowfullscreen allowtransparency allow="autoplay; encrypted-media; picture-in-picture"></iframe></div>`;
                 } else if (item.type === 'text') {
                     const lines = item.value.split(/\r?\n/);
                     let textHtml = '';
@@ -354,7 +330,6 @@
                 displayHtml += renderVerseContent(firstVerse);
                 contentDiv.innerHTML = displayHtml;
                 updateNavButtons(0, bookData);
-                initPlyrPlayers();
             }
             return;
         }
@@ -371,7 +346,6 @@
         contentDiv.innerHTML = displayHtml;
 
         updateNavButtons(activeIdx, bookData);
-        initPlyrPlayers();
     }
 
     // 4. Function to render content based on loaded data and selected language
