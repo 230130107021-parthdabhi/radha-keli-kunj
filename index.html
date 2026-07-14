@@ -76,17 +76,7 @@
       font-family: 'Noto Serif Devanagari', serif;
     }
 
-    .sidebar-subtext {
-      font-size: 0.9em;
-      color: #b45309; /* Warm Amber */
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-top: 15px;
-      border-top: 1px solid #e7e5e4;
-      padding-top: 20px;
-      width: 100%;
-    }
+    
 
     /* Main Content Styling */
     .main-content {
@@ -245,6 +235,111 @@
       background-color: rgba(136, 19, 55, 0.03);
     }
 
+    .accordion-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Group Accordion Styles */
+    .group-accordion {
+      background: #ffffff;
+      border: 1px solid #e7e5e4;
+      border-radius: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .group-header {
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      background: #ffffff;
+      transition: background-color 0.25s ease;
+      user-select: none;
+    }
+
+    .group-accordion.open {
+      border-color: #fca5a5;
+      box-shadow: 0 10px 15px -3px rgba(136, 19, 55, 0.04), 0 4px 6px -2px rgba(136, 19, 55, 0.04);
+    }
+
+    .group-header:hover {
+      background-color: rgba(136, 19, 55, 0.01);
+    }
+
+    .group-title {
+      font-size: 1.25em;
+      font-weight: 700;
+      color: #292524;
+      transition: color 0.2s ease;
+    }
+
+    .group-title.devanagari {
+      font-family: 'Noto Serif Devanagari', serif;
+    }
+
+    .group-title.gujarati {
+      font-family: 'Noto Serif Gujarati', serif;
+    }
+
+    .group-header:hover .group-title,
+    .group-accordion.open .group-title {
+      color: #881337;
+    }
+
+    .group-chevron {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f5f5f4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #78716c;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .group-header:hover .group-chevron,
+    .group-accordion.open .group-chevron {
+      background: #881337;
+      color: #ffffff;
+    }
+
+    .group-accordion.open .group-chevron {
+      transform: rotate(180deg);
+    }
+
+    /* Group Content Area */
+    .group-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      background: #fafaf9;
+      border-top: 0 solid #f5f5f4;
+    }
+
+    .group-accordion.open .group-content {
+      border-top-width: 1px;
+    }
+
+    .group-books-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      padding: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .group-books-grid {
+        grid-template-columns: 1fr;
+        padding: 16px;
+      }
+    }
+
     /* Responsive styling */
     @media (max-width: 1024px) {
       .app-container {
@@ -284,15 +379,14 @@
         <button class="lang-switch-btn lang-gu" data-lang="gu" onclick="setLanguage('gu')">ગુજરાતી</button>
       </div>
       
-      <div class="sidebar-subtext" id="sidebarSubtext">श्री राधावल्लभ विजयतेतराम</div>
-    </div>
+      </div>
 
     <!-- Right side: Main Content Grid -->
     <div class="main-content">
       <div class="navigation-sections">
         <div class="nav-section">
           <h2 id="sectionTitle" class="hindi-title">दिव्य ग्रन्थ संग्रह</h2>
-          <div class="cards-grid" id="cardsGrid">
+          <div class="accordion-list" id="cardsGrid">
             <!-- Rendered dynamically by script -->
           </div>
         </div>
@@ -300,33 +394,183 @@
     </div>
   </div>
 
-  <script>
+    <script>
     (function () {
       const books = [
         { id: 'shri-hit-chaurasi-ji', hi: 'श्री हित चौरासी जी', gu: 'શ્રી હિત ચૌરાસી જી' },
         { id: 'shri-hit-sphut-vani', hi: 'श्री हित स्फुट वाणी', gu: 'શ્રી હિત સ્ફુટ વાણી' },
         { id: 'shri-radha-sudhanidhi-stotram', hi: 'श्रीराधासुधानिधि स्तोत्रम्', gu: 'શ્રીરાધાસુધાનિધિ સ્તોત્રમ્' },
-        { id: 'shri-hit-sevak-vani', hi: 'श्रीहित सेवक वाणी', gu: 'શ્રીહિત સેવક વાણી' },
+        { id: 'shri-hit-sevak-vani', hi: 'श्रीहित सेवक वाणी (अर्थ सहित)', gu: 'શ્રીહિત સેવક વાણી (અર્થ સહિત)' },
+        { id: 'shri-hit-sevak-vani-without-meaning', hi: 'श्रीहित सेवक वाणी (मूल पाठ)', gu: 'શ્રીહિત સેવક વાણી (મૂળ પાઠ)' },
         { id: 'shri-hit-mangal-gaan', hi: 'श्रीहित मंगल गान', gu: 'શ્રીહિત મંગલ ગાન' },
         { id: 'mangalacharan', hi: 'मंगलाचरण', gu: 'મંગલાચરણ' },
         { id: 'shri-vrindavan-dham-namavali', hi: 'श्रीवृन्दावनधाम नामावली', gu: 'શ્રીવૃન્દાવનધામ નામાવલી' },
-        { id: 'shri-yamunashtakam', hi: 'श्रीयमुनाष्टकम्', gu: 'શ્રીયમુનાષ્ટકમ્' },
+        { id: 'shri-yamunashtakam', hi: 'श्रीयमुनाष्टकम् (अर्थ सहित)', gu: 'શ્રીયમુનાષ્ટકમ્ (અર્થ સહિત)' },
+        { id: 'shri-yamunashtakam-without-meaning', hi: 'श्रीयमुनाष्टकम् (मूल पाठ)', gu: 'શ્રીયમુનાષ્ટકમ્ (મૂળ પાઠ)' },
         { id: 'hamare-rasik-sant-evam-bhaktajan', hi: 'हमारे रसिक संत एवं भक्तजन', gu: 'અમારા રસિક સંત અને ભક્તજન' },
-        { id: 'padavali', hi: 'पदावली', gu: 'પદાવલી' }
+        { id: 'padavali', hi: 'पदावली', gu: 'પદાવલી' },
+        { id: 'ashtyam', hi: 'श्री अष्टयाम सेवा पद्धति', gu: 'શ્રી અષ્ટયામ સેવા પદ્ધતિ' },
+        { id: 'vrindavansatleela', hi: 'श्री वृन्दावन शत लीला', gu: 'શ્રી વૃન્દાવન શત લીલા' },
+        { id: 'priyajukinamavali', hi: 'श्रीप्रियाजू की नामावली', gu: 'શ્રીપ્રિયાજૂ કી નામાવલી' },
+        { id: 'laljukinamavali', hi: 'श्रीलालजू की नामावली', gu: 'શ્રીલાલજૂ કી નામાવલી' },
+        { id: 'rasiknaamavali', hi: 'रसिक नामावली', gu: 'રસિક નામાવલી' },
+        { id: 'yugaldhyaan', hi: 'युगल ध्यान', gu: 'યુગલ ધ્યાન' },
+        { id: 'bhaktanamavali', hi: 'भक्त नामावली', gu: 'ભક્ત નામાવલી' },
+        { id: 'ishtaradhanprakaran', hi: 'श्रीहित इष्टाराधन प्रकरण', gu: 'શ્રીહિત ઇષ્ટારાધન પ્રકરણ' },
+        { id: 'ishtstuti', hi: 'इष्ट स्तुति', gu: 'ઇષ્ટ સ્તુતિ' },
+        { id: 'kirtanjaykara', hi: 'कीर्तन एवं जयकारा', gu: 'કીર્તન એવં જયકારા' },
+        { id: 'shriradhakenaam', hi: 'श्रीराधा के 28 नाम', gu: 'શ્રીરાધા કે 28 નામ' },
+        { id: 'lalju-ki-janm-badhai', hi: 'लालजू की जन्म बधाई', gu: 'લાલજૂ કી જન્મ બધાઈ' },
+        { id: 'jhulankepad', hi: 'झूलन के पद', gu: 'ઝૂલન કે પદ' },
+        { id: 'bhaktarchan', hi: 'भक्तार्चन', gu: 'ભક્તાર્ચન' },
+        { id: 'vyahula', hi: 'व्याहुला', gu: 'વ્યાહુલા' },
+        { id: 'gopal', hi: 'श्रीगोपालसहस्रनामस्तोत्रम्', gu: 'શ્રીગોપાલસહસ્રનામસ્તોત્રમ્' },
+        { id: 'gopigeet', hi: 'गोपीगीत', gu: 'ગોપીગીત' },
+        { id: 'madhurastakam', hi: 'मधुराष्टकम्', gu: 'મધુરાષ્ટકમ્' },
+        { id: 'bhajgovindam', hi: 'भज गोविन्दं (चर्पट पञ्जरिका स्तोत्र)', gu: 'ભજ ગોવિન્દં (ચર્પટ પઞ્જરિકા સ્તોત્ર)' },
+        { id: 'krishnastakam', hi: 'श्रीकृष्णाष्टकम्', gu: 'श્રીકૃષ્ણાષ્ટકમ્' },
+        { id: 'radhakripakataksh', hi: 'राधा कृपा कटाक्ष स्तोत्रम्', gu: 'રાધા કૃપા કટાક્ષ સ્તોત્રમ્' },
+        { id: 'shrisevakvandana', hi: 'श्री सेवक वन्दना', gu: 'શ્રી સેવક વન્દના' },
+        { id: 'guruvandana', hi: 'गुरु वन्दना', gu: 'ગુરુ વન્દના' },
+        { id: 'ishtvandana', hi: 'इष्ट वन्दना', gu: 'ઇષ્ટ વન્દના' },
+        { id: 'acharyavandana', hi: 'आचार्य वन्दना', gu: 'આચાર્ય વન્દના' },
+        { id: 'ashtadashasiddhant', hi: 'अष्टादश सिद्धान्त के पद', gu: 'અષ્ટાદશ સિદ્ધાન્ત કે પદ' },
+        { id: 'kelimaal', hi: 'केलिमाल', gu: 'કેલિમાલ' },
+        { id: 'premkipeer', hi: 'प्रेम की पीर', gu: 'પ્રેમ કી પીર' },
+        { id: 'rasikananyamaal', hi: 'रसिक अनन्य माल', gu: 'રસિક અનન્ય માલ' },
+        { id: 'bhaktanamavalibyaleesleela', hi: 'भक्त नामावली (बयालीस लीला)', gu: 'ભક્ત નામાવલી (બયાલીસ લીલા)' },
+        { id: 'byaleesleela', hi: 'बयालीस लीला', gu: 'બયાલીસ લીલા' },
+        { id: 'sakhiyonkinamavali', hi: 'सखियों की नामावली', gu: 'સખીઓની નામાવલી' },
+        { id: 'sevakjiintro', hi: 'श्री सेवक जी का जीवन-चरित्र', gu: 'શ્રી સેવક જી નું જીવન-ચરિત્ર' },
+        { id: 'dhruvdasjiintro', hi: 'श्री ध्रुवदास जी का जीवन-चरित्र', gu: 'શ્રી ધ્રુવદાસ જી નું જીવન-ચરિત્ર' },
+        { id: 'patra', hi: 'हरिवंश महाप्रभु के पत्रद्वय', gu: 'હરિવંશ મહાપ્રભુના પત્રદ્વય' }
+      ];
+
+      const groups = [
+        {
+          id: 'group1',
+          hi: 'श्री हित हरिवंश वाणी',
+          gu: 'શ્રી હિત હરિવંશ વાણી',
+          bookIds: [
+            'shri-hit-chaurasi-ji',
+            'shri-hit-sphut-vani',
+            'shri-radha-sudhanidhi-stotram',
+            'shri-hit-sevak-vani-without-meaning',
+            'shri-hit-sevak-vani',
+            'shri-yamunashtakam',
+            'patra'
+          ]
+        },
+        {
+          id: 'group2',
+          hi: 'रसिकों की वाणी',
+          gu: 'રસિકોની વાણી',
+          bookIds: [
+            'ashtadashasiddhant',
+            'kelimaal',
+            'byaleesleela',
+            'premkipeer',
+            'rasikananyamaal',
+            'bhaktanamavalibyaleesleela',
+            'vrindavansatleela',
+            'sakhiyonkinamavali',
+            'sevakjiintro',
+            'dhruvdasjiintro'
+          ]
+        },
+        {
+          id: 'group3',
+          hi: 'अष्टयाम सेवा पद्धति',
+          gu: 'અષ્ટયામ સેવા પદ્ધતિ',
+          bookIds: [
+            'ashtyam',
+            'acharyavandana',
+            'ishtvandana',
+            'guruvandana',
+            'shrisevakvandana'
+          ]
+        },
+        {
+          id: 'group4',
+          hi: 'नित्य पाठ रसोपासना',
+          gu: 'નિત્ય પાઠ રસોપાસના',
+          bookIds: [
+            'mangalacharan',
+            'shri-hit-mangal-gaan',
+            'shri-yamunashtakam-without-meaning',
+            'priyajukinamavali',
+            'laljukinamavali',
+            'rasiknaamavali',
+            'yugaldhyaan',
+            'bhaktanamavali',
+            'shri-vrindavan-dham-namavali',
+            'ishtaradhanprakaran',
+            'ishtstuti',
+            'kirtanjaykara',
+            'shriradhakenaam',
+            'padavali'
+          ]
+        },
+        {
+          id: 'group5',
+          hi: 'स्तोत्रावली',
+          gu: 'સ્તોત્રાવલી',
+          bookIds: [
+            'gopal',
+            'radhakripakataksh',
+            'krishnastakam',
+            'madhurastakam',
+            'bhajgovindam',
+            'gopigeet'
+          ]
+        },
+        {
+          id: 'group6',
+          hi: 'उत्सव के पद',
+          gu: 'ઉત્સવના પદ',
+          bookIds: [
+            'jhulankepad',
+            'lalju-ki-janm-badhai',
+            'vyahula',
+            'bhaktarchan'
+          ]
+        }
       ];
 
       const langData = {
         hi: {
           desc: "राधावल्लभ सम्प्रदाय के रसिक संत एवं आचार्य प्रणीत ग्रन्थों का दिव्य संग्रह।",
-          subtext: "श्री राधावल्लभ विजयतेतराम",
           sectionTitle: "दिव्य ग्रन्थ संग्रह"
         },
         gu: {
           desc: "રાધાવલ્લભ સંપ્રદાયના રસિક સંતો અને આચાર્યો દ્વારા રચિત ગ્રંથોનો દિવ્ય સંગ્રહ.",
-          subtext: "શ્રી રાધાવલ્લભ વિજયતેતરામ",
           sectionTitle: "દિવ્ય ગ્રંથ સંગ્રહ"
         }
       };
+
+      let openGroupId = null;
+
+      function toggleGroup(groupId) {
+        const accordion = document.getElementById('group-' + groupId);
+        const content = document.getElementById('content-' + groupId);
+        if (!accordion || !content) return;
+        
+        const isOpen = accordion.classList.contains('open');
+        
+        document.querySelectorAll('.group-accordion').forEach(acc => {
+          acc.classList.remove('open');
+          const accContent = acc.querySelector('.group-content');
+          if (accContent) accContent.style.maxHeight = '0px';
+        });
+        
+        if (isOpen) {
+          openGroupId = null;
+        } else {
+          accordion.classList.add('open');
+          content.style.maxHeight = content.scrollHeight + 'px';
+          openGroupId = groupId;
+        }
+      }
 
       function setLanguage(lang) {
         localStorage.setItem('preferredLanguage', lang);
@@ -335,11 +579,10 @@
 
       function updateUI(lang) {
         const data = langData[lang];
-        
+
         // Update texts
         document.getElementById('sidebarDesc').textContent = data.desc;
-        document.getElementById('sidebarSubtext').textContent = data.subtext;
-        
+
         const sectionTitle = document.getElementById('sectionTitle');
         sectionTitle.textContent = data.sectionTitle;
         sectionTitle.className = lang === 'hi' ? 'hindi-title' : 'gujarati-title';
@@ -350,16 +593,67 @@
           btn.classList.toggle('active', isActive);
         });
 
-        // Render cards
+        // Render card containers (accordions + standalone)
         const cardsGrid = document.getElementById('cardsGrid');
         cardsGrid.innerHTML = '';
-        
-        books.forEach(book => {
+
+        // Render Groups
+        groups.forEach(group => {
+          const groupTitleText = lang === 'hi' ? group.hi : group.gu;
+          const titleFontClass = lang === 'hi' ? 'devanagari' : 'gujarati';
+
+          const groupBooks = group.bookIds.map(id => books.find(b => b.id === id)).filter(Boolean);
+
+          let booksHtml = '';
+          groupBooks.forEach(book => {
+            const titleText = lang === 'hi' ? book.hi : book.gu;
+            const fontClass = lang === 'hi' ? 'devanagari' : 'gujarati';
+            booksHtml += `
+              <a href="${book.id}.html" class="card">
+                <span class="card-text ${fontClass}">${titleText}</span>
+                <div class="card-arrow">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                  </svg>
+                </div>
+              </a>
+            `;
+          });
+
+          const isGroupOpen = openGroupId === group.id;
+          const openClass = isGroupOpen ? 'open' : '';
+          const maxHeightStyle = isGroupOpen ? 'style="max-height: none;"' : '';
+
+          const groupHtml = `
+            <div class="group-accordion ${openClass}" id="group-${group.id}">
+              <div class="group-header" onclick="toggleGroup('${group.id}')">
+                <span class="group-title ${titleFontClass}">${groupTitleText}</span>
+                <div class="group-chevron">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                  </svg>
+                </div>
+              </div>
+              <div class="group-content" id="content-${group.id}" ${maxHeightStyle}>
+                <div class="group-books-grid">
+                  ${booksHtml}
+                </div>
+              </div>
+            </div>
+          `;
+          cardsGrid.innerHTML += groupHtml;
+        });
+
+        // Render standalone cards
+        const groupedIds = new Set(groups.flatMap(g => g.bookIds));
+        const standaloneBooks = books.filter(b => !groupedIds.has(b.id));
+
+        standaloneBooks.forEach(book => {
           const titleText = lang === 'hi' ? book.hi : book.gu;
           const fontClass = lang === 'hi' ? 'devanagari' : 'gujarati';
-          
+
           const cardHtml = `
-            <a href="${book.id}.html" target="_blank" class="card">
+            <a href="${book.id}.html" class="card">
               <span class="card-text ${fontClass}">${titleText}</span>
               <div class="card-arrow">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width: 16px; height: 16px;">
@@ -372,12 +666,14 @@
         });
       }
 
-      // Expose setLanguage globally
+      // Expose setLanguage and toggleGroup globally
       window.setLanguage = setLanguage;
+      window.toggleGroup = toggleGroup;
 
       // Load initial language
       const currentLang = localStorage.getItem('preferredLanguage') || 'hi';
       updateUI(currentLang);
     })();
   </script>
+
 </body>
