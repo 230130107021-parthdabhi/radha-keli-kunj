@@ -1029,12 +1029,19 @@
         const basePrefix = isGroupDir ? '../' : '';
         const fetchDir = isGroupDir ? `${parentDir}/` : '';
 
+        const delayPromise = new Promise(resolve => setTimeout(resolve, 400));
+
         try {
-            const response = await fetch(`${basePrefix}assets/data/${currentLang}/${fetchDir}${filename}.json`);
-            if (!response.ok) {
-                throw new Error(`Failed to load content data: ${response.statusText}`);
-            }
-            bookData = await response.json();
+            const fetchPromise = fetch(`${basePrefix}assets/data/${currentLang}/${fetchDir}${filename}.json`)
+                .then(async (response) => {
+                    if (!response.ok) {
+                        throw new Error(`Failed to load content data: ${response.statusText}`);
+                    }
+                    return response.json();
+                });
+
+            const [data] = await Promise.all([fetchPromise, delayPromise]);
+            bookData = data;
             render(bookData, currentLang);
         } catch (err) {
             console.error('Error loading content data:', err);
