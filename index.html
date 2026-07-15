@@ -10,6 +10,28 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Serif+Devanagari:wght@400;600;700&family=Noto+Serif+Gujarati:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
+    /* Custom scrollbar based on project theme */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f5f5f4;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: rgba(136, 19, 55, 0.3);
+      border-radius: 5px;
+      border: 2px solid #f5f5f4;
+      transition: background-color 0.3s ease;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: #881337;
+    }
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(136, 19, 55, 0.3) #f5f5f4;
+    }
+
     body {
       background-color: #faf9f6;
       background: linear-gradient(135deg, #fdfdfb 0%, #f4f3ec 100%);

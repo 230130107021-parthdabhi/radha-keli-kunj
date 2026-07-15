@@ -21,6 +21,27 @@
         .verse-nav-sidebar {
             display: none !important;
         }
+        /* Custom scrollbar based on project theme */
+        ::-webkit-scrollbar {
+            width: 10px !important;
+            height: 10px !important;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f5f5f4 !important;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(136, 19, 55, 0.3) !important;
+            border-radius: 5px !important;
+            border: 2px solid #f5f5f4 !important;
+            transition: background-color 0.3s ease !important;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #881337 !important;
+        }
+        * {
+            scrollbar-width: thin !important;
+            scrollbar-color: rgba(136, 19, 55, 0.3) #f5f5f4 !important;
+        }
         .content h2 {
             margin-bottom: 30px;
             border-bottom: 2px solid #881337;
