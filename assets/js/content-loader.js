@@ -263,7 +263,7 @@
             #tocDropdown, .toc-dropdown {
                 position: fixed !important;
                 top: auto !important;
-                bottom: 90px !important;
+                bottom: 80px !important;
                 left: 50% !important;
                 right: auto !important;
                 transform: translateX(-50%) translateY(10px) !important;
@@ -279,6 +279,30 @@
             }
             .content h2 {
                 font-size: 1.3em !important;
+            }
+            .bottom-controller-bar {
+                height: 50px !important;
+                gap: 8px !important;
+                padding: 0 10px !important;
+                border-radius: 25px !important;
+                bottom: 15px !important;
+            }
+            .bottom-controller-btn {
+                width: 36px !important;
+                height: 36px !important;
+            }
+            .bottom-controller-btn svg {
+                width: 18px !important;
+                height: 18px !important;
+            }
+            .font-weight-toggle-btn span {
+                font-size: 1.05em !important;
+            }
+            .controller-expand-btn {
+                bottom: 15px !important;
+                right: 15px !important;
+                width: 36px !important;
+                height: 36px !important;
             }
         }
         .project-resource-loader {
