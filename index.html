@@ -548,7 +548,7 @@
         }
       };
 
-      let openGroupId = null;
+      let openGroupId = localStorage.getItem('openGroupId') || null;
 
       function toggleGroup(groupId) {
         const accordion = document.getElementById('group-' + groupId);
@@ -565,10 +565,12 @@
         
         if (isOpen) {
           openGroupId = null;
+          localStorage.removeItem('openGroupId');
         } else {
           accordion.classList.add('open');
           content.style.maxHeight = content.scrollHeight + 'px';
           openGroupId = groupId;
+          localStorage.setItem('openGroupId', groupId);
         }
       }
 
@@ -673,6 +675,19 @@
       // Load initial language
       const currentLang = localStorage.getItem('preferredLanguage') || 'hi';
       updateUI(currentLang);
+
+      // Restore scroll position
+      const savedScroll = localStorage.getItem('homeScrollPosition');
+      if (savedScroll) {
+        setTimeout(() => {
+          window.scrollTo(0, parseInt(savedScroll));
+        }, 50);
+      }
+
+      // Track scroll position changes
+      window.addEventListener('scroll', () => {
+        localStorage.setItem('homeScrollPosition', window.scrollY);
+      });
     })();
   </script>
 

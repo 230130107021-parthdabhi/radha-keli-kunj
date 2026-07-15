@@ -83,16 +83,49 @@
             justify-content: center;
             cursor: pointer;
             border-radius: 50%;
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
         }
         .bottom-controller-btn:hover:not(.disabled) {
             background-color: rgba(136, 19, 55, 0.08);
+            transform: scale(1.08);
+        }
+        .bottom-controller-btn:active:not(.disabled) {
+            background-color: rgba(136, 19, 55, 0.16) !important;
+            transform: scale(0.92);
         }
         .bottom-controller-btn.disabled {
             opacity: 0.25;
             cursor: not-allowed;
             pointer-events: none;
+        }
+        /* Dynamic Background Shapes */
+        .btn-shape-circle {
+            border-radius: 50% !important;
+        }
+        .btn-shape-squircle {
+            border-radius: 10px !important;
+        }
+        .btn-shape-leaf-1 {
+            border-radius: 8px 18px 8px 18px !important;
+        }
+        .btn-shape-leaf-left {
+            border-radius: 18px 8px 8px 18px !important;
+        }
+        .btn-shape-leaf-right {
+            border-radius: 8px 18px 18px 8px !important;
+        }
+        .btn-shape-oval {
+            border-radius: 14px 6px 14px 6px !important;
+        }
+        .btn-shape-organic-1 {
+            border-radius: 35% 65% 55% 45% / 50% 45% 55% 50% !important;
+        }
+        .btn-shape-organic-2 {
+            border-radius: 60% 40% 40% 60% / 50% 50% 50% 50% !important;
+        }
+        .btn-shape-rounded {
+            border-radius: 12px !important;
         }
         .bottom-controller-btn svg {
             width: 24px;
