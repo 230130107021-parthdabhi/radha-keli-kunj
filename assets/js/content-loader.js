@@ -289,7 +289,7 @@
                 right: 20px;
             }
         }
-        @media (max-width: 767px) {
+        @media (max-width: 1280px) {
             #tocToggleBtn {
                 display: none !important;
             }
@@ -1190,6 +1190,69 @@
             }
         }
     });
+
+    // 8. Listen to touch/swipe events for swipe-to-switch verse navigation
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+
+    window.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches[0]) {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        }
+    }, { passive: true });
+
+    window.addEventListener('touchend', (e) => {
+        if (!e.changedTouches || !e.changedTouches[0]) return;
+
+        // Skip swipe gestures on certain interactive or media elements
+        const ignoreTags = ['INPUT', 'TEXTAREA', 'BUTTON', 'A', 'SELECT', 'VIDEO', 'IFRAME', 'AUDIO'];
+        let curr = e.target;
+        while (curr && curr !== document.body) {
+            if (curr.tagName && ignoreTags.includes(curr.tagName.toUpperCase())) {
+                return;
+            }
+            if (curr.classList && (curr.classList.contains('no-swipe') || curr.classList.contains('bottom-controller-bar') || curr.classList.contains('lang-switch-container'))) {
+                return;
+            }
+            if (curr.id === 'youtubePlayer' || curr.id === 'tocDropdown') {
+                return;
+            }
+            curr = curr.parentElement;
+        }
+
+        touchEndX = e.changedTouches[0].clientX;
+        touchEndY = e.changedTouches[0].clientY;
+        
+        const deltaX = touchEndX - touchStartX;
+        const deltaY = touchEndY - touchStartY;
+        
+        // We only want to trigger if the swipe is primarily horizontal and meets a minimum threshold
+        const minSwipeDistance = 50; // in pixels
+        if (Math.abs(deltaX) > Math.abs(deltaY) * 2 && Math.abs(deltaX) > minSwipeDistance) {
+            if (deltaX > 0) {
+                // Swiped Right -> Go to Previous Verse
+                const prevBtn = document.getElementById('prevVerseBtn');
+                if (prevBtn && !prevBtn.classList.contains('disabled')) {
+                    const href = prevBtn.getAttribute('href');
+                    if (href) {
+                        window.location.hash = href;
+                    }
+                }
+            } else {
+                // Swiped Left -> Go to Next Verse
+                const nextBtn = document.getElementById('nextVerseBtn');
+                if (nextBtn && !nextBtn.classList.contains('disabled')) {
+                    const href = nextBtn.getAttribute('href');
+                    if (href) {
+                        window.location.hash = href;
+                    }
+                }
+            }
+        }
+    }, { passive: true });
 
     // Init load on DOMContentLoaded
     if (document.readyState === 'loading') {
