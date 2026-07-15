@@ -27,20 +27,17 @@
             height: 10px !important;
         }
         ::-webkit-scrollbar-track {
-            background: #f5f5f4 !important;
+            background: transparent !important;
         }
         ::-webkit-scrollbar-thumb {
             background-color: rgba(136, 19, 55, 0.3) !important;
             border-radius: 5px !important;
-            border: 2px solid #f5f5f4 !important;
+            border: 2px solid transparent !important;
+            background-clip: padding-box !important;
             transition: background-color 0.3s ease !important;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background-color: #881337 !important;
-        }
-        * {
-            scrollbar-width: thin !important;
-            scrollbar-color: rgba(136, 19, 55, 0.3) #f5f5f4 !important;
+            background-color: rgba(136, 19, 55, 0.5) !important;
         }
         .content h2 {
             margin-bottom: 30px;
@@ -1246,10 +1243,10 @@
 
         touchEndX = e.changedTouches[0].clientX;
         touchEndY = e.changedTouches[0].clientY;
-        
+
         const deltaX = touchEndX - touchStartX;
         const deltaY = touchEndY - touchStartY;
-        
+
         // We only want to trigger if the swipe is primarily horizontal and meets a minimum threshold
         const minSwipeDistance = 50; // in pixels
         if (Math.abs(deltaX) > Math.abs(deltaY) * 2 && Math.abs(deltaX) > minSwipeDistance) {
