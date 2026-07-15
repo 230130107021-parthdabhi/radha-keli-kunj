@@ -235,16 +235,7 @@
                 padding-top: 90px;
             }
             .nav-btn {
-                background-color: rgba(255, 255, 255, 0.95);
-                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-                width: 44px;
-                height: 44px;
-            }
-            .nav-btn.prev-btn {
-                left: 30px;
-            }
-            .nav-btn.next-btn {
-                right: 30px;
+                display: none !important;
             }
             .slider-container {
                 max-width: 92%;
@@ -294,8 +285,9 @@
         const prevBtn = document.getElementById("prevBtn");
         const nextBtn = document.getElementById("nextBtn");
         let current = 0;
+        let autoScrollInterval = null;
 
-        function showSlide(index) {
+        function showSlide(index, isUserInteraction = false) {
           if (!cards.length) return;
           current = (index + cards.length) % cards.length;
           
@@ -303,31 +295,68 @@
           track.style.transform = `translateX(-${current * 100}%)`;
           
           cards.forEach((card, i) => card.classList.toggle("active", i === current));
+
+          if (isUserInteraction) {
+            resetAutoScroll();
+          }
         }
 
-        prevBtn.addEventListener("click", () => showSlide(current - 1));
-        nextBtn.addEventListener("click", () => showSlide(current + 1));
+        function startAutoScroll() {
+          if (window.innerWidth <= 991) {
+            if (!autoScrollInterval) {
+              autoScrollInterval = setInterval(() => {
+                showSlide(current + 1);
+              }, 4000);
+            }
+          } else {
+            stopAutoScroll();
+          }
+        }
+
+        function stopAutoScroll() {
+          if (autoScrollInterval) {
+            clearInterval(autoScrollInterval);
+            autoScrollInterval = null;
+          }
+        }
+
+        function resetAutoScroll() {
+          stopAutoScroll();
+          startAutoScroll();
+        }
+
+        if (prevBtn) {
+          prevBtn.addEventListener("click", () => showSlide(current - 1, true));
+        }
+        if (nextBtn) {
+          nextBtn.addEventListener("click", () => showSlide(current + 1, true));
+        }
 
         document.addEventListener("keydown", function (e) {
-          if (e.key === "ArrowLeft") showSlide(current - 1);
-          if (e.key === "ArrowRight") showSlide(current + 1);
+          if (e.key === "ArrowLeft") showSlide(current - 1, true);
+          if (e.key === "ArrowRight") showSlide(current + 1, true);
         });
 
         let startX = 0;
         const slider = document.getElementById("saintSlider");
-        slider.addEventListener("touchstart", function (e) {
-          startX = e.changedTouches[0].clientX;
-        }, { passive: true });
-        slider.addEventListener("touchend", function (e) {
-          const endX = e.changedTouches[0].clientX;
-          const dx = endX - startX;
-          if (Math.abs(dx) > 40) {
-            if (dx < 0) showSlide(current + 1);
-            else showSlide(current - 1);
-          }
-        }, { passive: true });
+        if (slider) {
+          slider.addEventListener("touchstart", function (e) {
+            startX = e.changedTouches[0].clientX;
+          }, { passive: true });
+          slider.addEventListener("touchend", function (e) {
+            const endX = e.changedTouches[0].clientX;
+            const dx = endX - startX;
+            if (Math.abs(dx) > 40) {
+              if (dx < 0) showSlide(current + 1, true);
+              else showSlide(current - 1, true);
+            }
+          }, { passive: true });
+        }
+
+        window.addEventListener("resize", startAutoScroll);
 
         showSlide(0);
+        startAutoScroll();
       };
     </script>
 <script src="assets/js/content-loader.js"></script>

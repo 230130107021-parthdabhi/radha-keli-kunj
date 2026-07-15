@@ -21,11 +21,15 @@
         .verse-nav-sidebar {
             display: none !important;
         }
-        .content h2.book-title {
+        .content h2 {
             margin-bottom: 30px;
             border-bottom: 2px solid #881337;
             padding-bottom: 15px;
             display: inline-block;
+            max-width: 100%;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            box-sizing: border-box;
         }
         .verse-heading-card {
             font-family: 'Outfit', 'Laila', sans-serif;
@@ -257,6 +261,7 @@
                 display: none !important;
             }
             #tocDropdown, .toc-dropdown {
+                position: fixed !important;
                 top: auto !important;
                 bottom: 90px !important;
                 left: 50% !important;
@@ -271,6 +276,9 @@
                 transform: translateX(-50%) translateY(0) !important;
                 opacity: 1 !important;
                 visibility: visible !important;
+            }
+            .content h2 {
+                font-size: 1.3em !important;
             }
         }
         .project-resource-loader {
