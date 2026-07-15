@@ -324,6 +324,41 @@
         }
     }
 
+    // Font weight controller state and functions
+    let currentWeight = parseInt(localStorage.getItem('preferredFontWeight')) || 500;
+    function toggleFontWeight() {
+        if (currentWeight === 500) {
+            currentWeight = 600;
+        } else if (currentWeight === 600) {
+            currentWeight = 700;
+        } else {
+            currentWeight = 500;
+        }
+        localStorage.setItem('preferredFontWeight', currentWeight);
+        applyFontWeight();
+        updateWeightBtnUI();
+    }
+    function applyFontWeight() {
+        let styleOverride = document.getElementById('font-weight-override');
+        if (!styleOverride) {
+            styleOverride = document.createElement('style');
+            styleOverride.id = 'font-weight-override';
+            document.head.appendChild(styleOverride);
+        }
+        styleOverride.textContent = `
+            .content, .content .vyakhya, .content .text-card, .content p, .content span, .content li, .content a {
+                font-weight: ${currentWeight} !important;
+            }
+        `;
+    }
+    function updateWeightBtnUI() {
+        const btns = document.querySelectorAll('.font-weight-toggle-btn');
+        btns.forEach(btn => {
+            btn.title = `Font Weight: ${currentWeight === 500 ? 'Regular' : currentWeight === 600 ? 'Medium' : 'Bold'}`;
+            btn.innerHTML = `<span style="font-weight: ${currentWeight}; font-size: 1.25em; font-family: 'Outfit', sans-serif;">B</span>`;
+        });
+    }
+
     // Global YouTube player visibility toggle state & handler
     let isVideoHidden = localStorage.getItem('globalVideoHidden') === 'true';
     window.toggleGlobalVideo = function () {
@@ -399,6 +434,12 @@
         resetBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" /></svg>`;
         resetBtn.addEventListener('click', resetZoom);
         bar.appendChild(resetBtn);
+
+        // Font Weight control button
+        const weightBtn = document.createElement('button');
+        weightBtn.className = 'bottom-controller-btn font-weight-toggle-btn';
+        weightBtn.addEventListener('click', toggleFontWeight);
+        bar.appendChild(weightBtn);
 
         // 5. Scroll to Media button (🎵)
         const mediaBtn = document.createElement('button');
@@ -501,6 +542,12 @@
         dropdownResetBtn.addEventListener('click', resetZoom);
         zoomMenu.appendChild(dropdownResetBtn);
 
+        // Font Weight control button for top-right menu
+        const dropdownWeightBtn = document.createElement('button');
+        dropdownWeightBtn.className = 'zoom-dropdown-btn font-weight-toggle-btn';
+        dropdownWeightBtn.addEventListener('click', toggleFontWeight);
+        zoomMenu.appendChild(dropdownWeightBtn);
+
         zoomContainer.appendChild(zoomMenu);
         document.body.appendChild(zoomContainer);
 
@@ -535,6 +582,8 @@
     // Helper to refresh zoom, media, chapters, and nav button visibility on active content render
     function onContentUpdate() {
         applyZoom();
+        applyFontWeight();
+        updateWeightBtnUI();
 
         // Apply global video hidden preference to any newly rendered containers
         const videoContainers = document.querySelectorAll('.video-container');
